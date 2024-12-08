@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
 @font-face {
 	font-family: 'Lato-Bold';
 	font-style: normal;
@@ -61,4 +67,13 @@
 .gradient-black_bg {
 	background: -webkit-linear-gradient(90deg, #09090c, #1a1b23);
 	background: linear-gradient(90deg, #09090c, #1a1b23);
+}
+
+.flex-container {
+	display: flex;
+	min-height: 100vh; /* Заставляет контейнер занимать всю высоту экрана */
+	flex-direction: column; /* Устанавливаем вертикальную направленность */
+}
+.flex-grow {
+	flex: 1; /* Позволяет основному контенту занимать доступное пространство */
 }
