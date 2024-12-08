@@ -13,7 +13,7 @@ import {
 export const DialogListItems = ({ title }) => {
 	return (
 		<Disclosure as='div' className='-mx-3'>
-			<DisclosureButton className='group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'>
+			<DisclosureButton className='group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-semibold text-gray-900 hover:bg-black-alpha-10'>
 				{title}
 				<ChevronDownIcon
 					aria-hidden='true'
@@ -26,7 +26,7 @@ export const DialogListItems = ({ title }) => {
 						key={item.name}
 						as='a'
 						href={item.href}
-						className='block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50'
+						className='block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-black-alpha-5'
 					>
 						{item.name}
 					</DisclosureButton>

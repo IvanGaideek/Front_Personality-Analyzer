@@ -24,7 +24,9 @@ export const NavItem = ({
 						<span className='absolute inset-0' />
 					</a>
 				)}
-				{description && <p className='mt-1 text-gray-600'>{description}</p>}
+				{description && (
+					<p className='mt-1 text-gray-600 open-sans'>{description}</p>
+				)}
 			</div>
 		</div>
 	)

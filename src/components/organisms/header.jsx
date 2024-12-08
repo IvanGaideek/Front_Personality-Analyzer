@@ -10,7 +10,7 @@ import { IconName } from '../molecules/header/Icon_and_name'
 export const Header = () => {
 	return (
 		<MobileMenuProvider>
-			<header className='bg-white'>
+			<header className='gradient-black_bg text-medium-gray'>
 				<nav
 					aria-label='Global'
 					className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'
@@ -22,7 +22,12 @@ export const Header = () => {
 					</div>
 					<div className='flex lg:hidden'>
 						<MobileMenuButton
-							Icon={<Bars3Icon aria-hidden='true' className='size-6' />}
+							Icon={
+								<Bars3Icon
+									aria-hidden='true'
+									className='size-6 text-almost-white'
+								/>
+							}
 							className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700'
 						/>
 					</div>

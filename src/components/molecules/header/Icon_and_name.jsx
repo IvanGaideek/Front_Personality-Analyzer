@@ -6,7 +6,7 @@ export const IconName = ({ className = '' }) => {
 	return (
 		<div className={className}>
 			<IconSite Img={MainIconSite} className='h-8 w-auto' alt='' />
-			<span>PersonalAnalysis</span>
+			<span className='lato-bold'>PersonalAnalysis</span>
 		</div>
 	)
 }

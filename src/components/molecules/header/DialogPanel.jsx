@@ -9,7 +9,6 @@ import { PlaceAuthorization } from './PlaceAuthorization'
 
 export const NavDialogPanel = () => {
 	const { mobileMenuOpen, setMobileMenuOpen } = useMobileMenu()
-	console.log('Mobile Menu Open:', mobileMenuOpen)
 
 	return (
 		<Dialog
@@ -18,7 +17,7 @@ export const NavDialogPanel = () => {
 			className='lg:hidden'
 		>
 			<div className='fixed inset-0 z-10' />
-			<DialogPanel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
+			<DialogPanel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-almost-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 poppins-bold'>
 				<div className='flex items-center justify-between'>
 					<MobileMenuButton
 						Icon={<Bars3Icon aria-hidden='true' className='size-6' />}
@@ -32,14 +31,14 @@ export const NavDialogPanel = () => {
 						<div className='space-y-2 py-6'>
 							<a
 								href='#'
-								className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'
+								className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-black-alpha-10'
 							>
 								Product
 							</a>
 							<DialogListItems title='Features' />
 							<a
 								href='#'
-								className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'
+								className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-black-alpha-10'
 							>
 								API
 							</a>

@@ -8,10 +8,14 @@ export default {
 		},
 		extend: {
 			colors: {
-				'almost-white': 'linear-gradient(to right, #fcf9f2 0%, #fcf9f2 100%)',
-				'medium-gray': 'linear-gradient(to right, #d7d4ce 0%, #d7d4ce 100%)',
+				'almost-white': '#fcf9f2',
+				'medium-gray': '#d7d4ce',
 				'all-black': '#000000',
 				'medium-yellow': '#fcda45',
+				'black-alpha': {
+					10: 'rgba(0, 0, 0, 0.1)',
+					5: 'rgba(0, 0, 0, 0.05)',
+				},
 			},
 		},
 	},

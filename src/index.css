@@ -2,6 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: 'Lato-Bold';
+	font-style: normal;
+	font-weight: 700;
+	src: url(resources/fonts/Lato-Bold.ttf) format('truetype');
+}
+
+@font-face {
+	font-family: 'Poppins-Bold';
+	font-style: normal;
+	src: url(resources/fonts/Poppins-Bold.ttf) format('truetype');
+}
+
+@font-face {
+	font-family: 'Poppins-Medium';
+	font-style: normal;
+	font-weight: 700;
+	src: url(resources/fonts/Poppins-Medium.ttf) format('truetype');
+}
+
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	src: url(resources/fonts/OpenSans-Medium.ttf) format('truetype');
+}
+
+@font-face {
+	font-family: 'Lato-Regular';
+	font-style: normal;
+	src: url(resources/fonts/Lato-Regular.ttf) format('truetype');
+}
+
+.lato-bold {
+	font-family: 'Lato-Bold';
+}
+
+.poppins-bold {
+	font-family: 'Poppins-Bold';
+}
+
+.poppins {
+	font-family: 'Poppins-Medium';
+}
+
+.open-sans {
+	font-family: 'OpenSans';
+}
+
+.lato-regular {
+	font-family: 'Lato-Regular';
+}
+
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.gradient-black_bg {
+	background: -webkit-linear-gradient(90deg, #09090c, #1a1b23);
+	background: linear-gradient(90deg, #09090c, #1a1b23);
 }
