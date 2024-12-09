@@ -20,7 +20,7 @@ export default function Footer() {
 					/>
 					<StandartList
 						data={footer_items}
-						className='flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400'
+						className='flex flex-wrap items-center mb-6 text-sm font-medium sm:mb-0 dark:text-gray-400'
 						commonStyleItem='hover:underline text-medium-yellow lato-regular'
 					/>
 				</div>

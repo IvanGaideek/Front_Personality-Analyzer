@@ -7,7 +7,7 @@ export const PlaceAuthorization = ({ className = '' }) => {
 			<AuthorizationButton
 				text='Sign up'
 				href='#'
-				className='bg-lime-500 focus:ring focus:ring-medium-gray hover:bg-lime-400'
+				className='bg-medium-yellow focus:ring focus:ring-medium-gray hover:bg-yellow-alpha-80'
 			/>
 			<AuthorizationButton
 				text='Log in'

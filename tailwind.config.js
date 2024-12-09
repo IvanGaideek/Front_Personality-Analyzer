@@ -12,6 +12,9 @@ export default {
 				'medium-gray': '#d7d4ce',
 				'all-black': '#000000',
 				'medium-yellow': '#fcda45',
+				'yellow-alpha': {
+					80: 'rgba(252, 218, 69, 0.82)',
+				},
 				'black-alpha': {
 					10: 'rgba(0, 0, 0, 0.1)',
 					5: 'rgba(0, 0, 0, 0.05)',
