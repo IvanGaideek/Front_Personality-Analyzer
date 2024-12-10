@@ -10,10 +10,10 @@ export const NavItem = ({
 	return (
 		<div key={name} className={className}>
 			{Icon && (
-				<div className='flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white'>
+				<div className='flex size-11 flex-none items-center justify-center rounded-lg bg-black-alpha-5 group-hover:bg-black-alpha-90'>
 					<Icon
 						aria-hidden='true'
-						className='size-6 text-gray-600 group-hover:text-indigo-600'
+						className='size-6 text-gray-600 group-hover:text-medium-yellow'
 					/>
 				</div>
 			)}
