@@ -77,3 +77,11 @@ body {
 .flex-grow {
 	flex: 1; /* Позволяет основному контенту занимать доступное пространство */
 }
+
+.circle-bi {
+	width: 100%; /* Устанавливаем ширину элемента */
+	height: auto; /* Устанавливаем высоту элемента */
+	background-image: url('resources/img/1_background.svg'); /* Путь к вашему изображению */
+	background-size: cover; /* Изображение будет растягиваться, чтобы покрыть весь элемент */
+	background-position: center; /* Центрируем изображение */
+}

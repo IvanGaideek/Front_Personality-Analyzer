@@ -11,6 +11,7 @@ export const ListItems = ({ className = '', group = [] }) => {
 					Icon={item.icon}
 					description={item.description}
 					href={item.href}
+					key={item.name}
 				/>
 			))}
 		</div>
