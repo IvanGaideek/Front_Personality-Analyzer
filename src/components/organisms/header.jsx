@@ -13,14 +13,14 @@ export const Header = () => {
 			<header className='gradient-black_bg text-medium-gray'>
 				<nav
 					aria-label='Global'
-					className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'
+					className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 md:px-8'
 				>
-					<div className='flex lg:flex-1'>
+					<div className='flex lg:flex-1 md:flex-1'>
 						<a href='#' className='-m-1.5 p-1.5'>
 							<IconName className='flex justify-flex-start items-center gap-4' />
 						</a>
 					</div>
-					<div className='flex lg:hidden'>
+					<div className='flex lg:hidden md:hidden'>
 						<MobileMenuButton
 							Icon={
 								<Bars3Icon
@@ -32,7 +32,7 @@ export const Header = () => {
 						/>
 					</div>
 					<NavCenter />
-					<PlaceAuthorization className='hidden lg:flex lg:flex-1 lg:justify-end lg:space-x-4' />
+					<PlaceAuthorization className='hidden lg:flex lg:flex-1 md:flex md:flex-1 lg:justify-end lg:space-x-4 md:justify-end md:space-x-4' />
 				</nav>
 				<NavDialogPanel />
 			</header>

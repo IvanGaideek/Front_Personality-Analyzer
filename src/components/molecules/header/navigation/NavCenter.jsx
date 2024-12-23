@@ -5,7 +5,7 @@ import { ListNav } from './ListNav'
 
 export const NavCenter = () => {
 	return (
-		<PopoverGroup className='hidden lg:flex lg:gap-x-24'>
+		<PopoverGroup className='hidden md:flex md:gap-x-24 lg:flex lg:gap-x-24'>
 			<a href='#' className='text-sm/6 poppins-bold'>
 				Product
 			</a>

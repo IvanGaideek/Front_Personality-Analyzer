@@ -10,7 +10,7 @@ export default function ListCardsMain({ dataCards = [] }) {
 					description={item.description}
 					href={item.href}
 					key={item.name}
-					className='w-full px-1 sm:w-1/2 md:w-2/3 lg:w-1/3'
+					className='w-full h-full px-1 sm:w-1/2 md:w-2/3 lg:w-1/3'
 				/>
 			))}
 		</>

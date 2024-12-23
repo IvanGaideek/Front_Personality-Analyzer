@@ -15,7 +15,7 @@ export default function CenterMainPage() {
 					</h2>
 				</div>
 			</div>
-			<div className='-mx-4 flex flex-wrap p-8'>
+			<div className='-mx-4 flex flex-wrap p-8 justify-center'>
 				<ListCardsMain dataCards={main_cards_center} />
 			</div>
 		</div>
