@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const AuthorizationButton = ({
 	text,
@@ -11,8 +12,8 @@ export const AuthorizationButton = ({
 		className
 
 	return (
-		<a href={href} className={all_classes}>
+		<Link to={href} className={all_classes}>
 			{text} {arrow && <span aria-hidden='true'>&rarr;</span>}
-		</a>
+		</Link>
 	)
 }

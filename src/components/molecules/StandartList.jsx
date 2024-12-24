@@ -13,6 +13,7 @@ export default function StandartList({
 					text={item.text}
 					className={commonStyleItem + ' ' + item.className}
 					href={item.href}
+					key={item.text}
 				/>
 			))}
 		</div>

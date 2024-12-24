@@ -6,6 +6,7 @@ import { MobileMenuProvider } from '../../addition/contexts/MobileContext'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { NavDialogPanel } from '../molecules/header/DialogPanel'
 import { IconName } from '../molecules/header/Icon_and_name'
+import { Link } from 'react-router-dom'
 
 export const Header = () => {
 	return (
@@ -16,9 +17,9 @@ export const Header = () => {
 					className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 md:px-8'
 				>
 					<div className='flex lg:flex-1 md:flex-1'>
-						<a href='#' className='-m-1.5 p-1.5'>
+						<Link to='/docs' className='-m-1.5 p-1.5'>
 							<IconName className='flex justify-flex-start items-center gap-4' />
-						</a>
+						</Link>
 					</div>
 					<div className='flex lg:hidden md:hidden'>
 						<MobileMenuButton

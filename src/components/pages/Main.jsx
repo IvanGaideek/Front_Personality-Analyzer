@@ -1,14 +1,10 @@
 import { React } from 'react'
-import { Header } from '../organisms/header'
-import Footer from '../organisms/footer'
 import CenterMainPage from '../organisms/MainWithOpportunities'
 
 function MainPage() {
 	return (
-		<div className='flex-container overflow-x-hidden'>
-			<Header />
+		<div className='overflow-x-hidden'>
 			<CenterMainPage />
-			<Footer />
 		</div>
 	)
 }

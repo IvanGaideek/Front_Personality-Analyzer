@@ -17,6 +17,7 @@ export default function Footer() {
 						Image={UserGroupIcon}
 						team={team}
 						classTeam='text-2xl lato-bold whitespace-nowrap dark:text-almost-white'
+						href='/docs/team'
 					/>
 					<StandartList
 						data={footer_items}

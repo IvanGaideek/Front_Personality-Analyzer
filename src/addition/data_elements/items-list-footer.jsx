@@ -1,22 +1,22 @@
 const footer_items = [
 	{
 		text: 'About us',
-		href: '#',
+		href: '/docs/overview',
 		className: 'me-4 md:me-6',
 	},
 	{
 		text: 'Privacy Policy',
-		href: '#',
+		href: '/docs/policy',
 		className: 'me-4 md:me-6',
 	},
 	{
 		text: 'Documentation',
-		href: '#',
+		href: '/docs/manual',
 		className: 'me-4 md:me-6',
 	},
 	{
 		text: 'Contacts',
-		href: '#',
+		href: '/docs/contact',
 		className: '',
 	},
 ]

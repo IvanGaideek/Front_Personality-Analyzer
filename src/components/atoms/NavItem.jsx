@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const NavItem = ({
 	name,
@@ -19,10 +20,10 @@ export const NavItem = ({
 			)}
 			<div className='flex-auto'>
 				{href && (
-					<a href={href} className='block font-semibold text-gray-900'>
+					<Link to={href} className='block font-semibold text-gray-900'>
 						{name}
 						<span className='absolute inset-0' />
-					</a>
+					</Link>
 				)}
 				{description && (
 					<p className='mt-1 text-gray-600 open-sans'>{description}</p>

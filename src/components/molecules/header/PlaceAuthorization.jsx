@@ -6,12 +6,12 @@ export const PlaceAuthorization = ({ className = '' }) => {
 		<div className={className}>
 			<AuthorizationButton
 				text='Sign up'
-				href='#'
+				href='/register'
 				className='bg-medium-yellow focus:ring focus:ring-medium-gray hover:bg-yellow-alpha-80'
 			/>
 			<AuthorizationButton
 				text='Log in'
-				href='#'
+				href='/login'
 				arrow={true}
 				className='bg-white focus:ring focus:ring-medium-gray hover:bg-gray-300'
 			/>

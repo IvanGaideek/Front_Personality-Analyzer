@@ -6,6 +6,7 @@ import { CloseDialogMenu } from '../../atoms/CloseDialogMenu'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { DialogListItems } from '../../atoms/DialogListItems'
 import { PlaceAuthorization } from './PlaceAuthorization'
+import { NavLink } from 'react-router-dom'
 
 export const NavDialogPanel = () => {
 	const { mobileMenuOpen, setMobileMenuOpen } = useMobileMenu()
@@ -29,19 +30,19 @@ export const NavDialogPanel = () => {
 				<div className='mt-6 flow-root'>
 					<div className='-my-6 divide-y divide-gray-500/10'>
 						<div className='space-y-2 py-6'>
-							<a
-								href='#'
+							<NavLink
+								to='/'
 								className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-black-alpha-10'
 							>
 								Product
-							</a>
+							</NavLink>
 							<DialogListItems title='Features' />
-							<a
-								href='#'
+							<NavLink
+								to='/docs/api'
 								className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-black-alpha-10'
 							>
 								API
-							</a>
+							</NavLink>
 						</div>
 						<PlaceAuthorization className='py-6 flex flex-1 justify-center space-x-4' />
 					</div>

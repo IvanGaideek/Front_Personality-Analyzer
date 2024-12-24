@@ -1,13 +1,14 @@
 import React from 'react'
 import { callsToAction } from '../../addition/data_elements/items-list-nav'
+import { Link } from 'react-router-dom'
 
 export const ButtonList = ({ className = '' }) => {
 	return (
 		<div className={className}>
 			{callsToAction.map(item => (
-				<a
+				<Link
 					key={item.name}
-					href={item.href}
+					to={item.href}
 					className='flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100'
 				>
 					{item.icon && (
@@ -17,7 +18,7 @@ export const ButtonList = ({ className = '' }) => {
 						/>
 					)}
 					{item.name}
-				</a>
+				</Link>
 			))}
 		</div>
 	)

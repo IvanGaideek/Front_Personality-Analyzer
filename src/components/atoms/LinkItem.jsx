@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function LinkItem({ text, href = '#', className = '' }) {
 	return (
 		<div>
-			<a href={href} class={className}>
+			<Link to={href} class={className}>
 				{text}
-			</a>
+			</Link>
 		</div>
 	)
 }

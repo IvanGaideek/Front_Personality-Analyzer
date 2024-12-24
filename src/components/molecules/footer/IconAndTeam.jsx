@@ -1,15 +1,16 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function IconAndTeam({
 	Image = '',
-	href = '#',
+	href = '/',
 	team = '',
 	classTeam = '',
 }) {
 	return (
 		<div>
-			<a
-				href={href}
+			<Link
+				to={href}
 				class='flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse'
 			>
 				<Image
@@ -18,7 +19,7 @@ export default function IconAndTeam({
 					alt='Group'
 				/>
 				<span class={'self-center ' + classTeam}>{team}</span>
-			</a>
+			</Link>
 		</div>
 	)
 }

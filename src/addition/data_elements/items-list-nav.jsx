@@ -9,22 +9,22 @@ const features = [
 		name: 'My Data search',
 		description:
 			'To search, filter, evaluate and download your data on the analyzed personalities.',
-		href: '#',
+		href: '/notfound',
 		icon: ChartPieIcon,
 	},
 	{
 		name: 'Documentation',
 		description: 'Instructions on how to use the platform.',
-		href: '#',
+		href: '/docs/manual',
 		icon: DocumentTextIcon,
 	},
 	{
 		name: 'Profile',
 		description: 'Manage your account.',
-		href: '#',
+		href: '/profile',
 		icon: UserIcon,
 	},
 ]
-const callsToAction = [{ name: 'About us', href: '#' }]
+const callsToAction = [{ name: 'About us', href: '/docs/overview' }]
 
 export { features, callsToAction }

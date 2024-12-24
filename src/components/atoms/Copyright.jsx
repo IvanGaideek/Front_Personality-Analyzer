@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Сopyright({ align_style = '', color = '', team = '' }) {
 	const className =
@@ -10,9 +11,9 @@ export default function Сopyright({ align_style = '', color = '', team = '' }) 
 	return (
 		<span class={className}>
 			© 2025{' '}
-			<a href='#' class='hover:underline text-almost-white lato-bold'>
+			<Link to='/docs/team' class='hover:underline text-almost-white lato-bold'>
 				{team}™
-			</a>
+			</Link>
 			. All Rights Reserved.
 		</span>
 	)

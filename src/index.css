@@ -85,3 +85,8 @@ body {
 	background-size: cover; /* Изображение будет растягиваться, чтобы покрыть весь элемент */
 	background-position: center; /* Центрируем изображение */
 }
+
+.active {
+	/* for NavLink*/
+	text-decoration: underline;
+}
