@@ -17,7 +17,7 @@ export const Header = () => {
 					className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 md:px-8'
 				>
 					<div className='flex lg:flex-1 md:flex-1'>
-						<Link to='/docs' className='-m-1.5 p-1.5'>
+						<Link to='/docs/overview' className='-m-1.5 p-1.5'>
 							<IconName className='flex justify-flex-start items-center gap-4' />
 						</Link>
 					</div>

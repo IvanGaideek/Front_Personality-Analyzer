@@ -17,7 +17,7 @@ export const NavCenter = () => {
 				/>
 				<ListNav />
 			</Popover>
-			<NavLink to='/docs/api' className='text-sm/6 poppins-bold'>
+			<NavLink to='/docs/api-overview' className='text-sm/6 poppins-bold'>
 				API
 			</NavLink>
 		</PopoverGroup>

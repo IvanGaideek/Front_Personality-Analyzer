@@ -1,68 +1,57 @@
-import React from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Outlet } from 'react-router-dom'
+import { BranchesBlocksLink } from '../molecules/BranchesBlocksLink'
+import {
+	branches_items,
+	lonely_items,
+} from '../../addition/data_elements/items-docs'
+import BranchBlock from '../molecules/BranchBlock'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 
 export default function Docs() {
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+	const toggleMenu = () => {
+		setIsMenuOpen(!isMenuOpen)
+	}
 	return (
-		<div>
-			<div class='flex'>
-				<nav class='flex-none w-64 bg-gray-800 p-6'>
-					<h1 class='text-2xl font-bold mb-6'>Project Documentation</h1>
-					<h2 class='text-lg font-semibold mb-2'>About Us</h2>
-					<ul class='space-y-2 mb-6'>
-						<li>
-							<a href='#overview' class='hover:text-blue-400'>
-								Overview
-							</a>
-						</li>
-						<li>
-							<a href='#team' class='hover:text-blue-400'>
-								Our Team
-							</a>
-						</li>
-					</ul>
-
-					<h2 class='text-lg font-semibold mb-2'>Instructions</h2>
-					<ul class='space-y-2 mb-6'>
-						<li>
-							<a href='#installation' class='hover:text-blue-400'>
-								Installation
-							</a>
-						</li>
-						<li>
-							<a href='#usage' class='hover:text-blue-400'>
-								Usage
-							</a>
-						</li>
-					</ul>
-
-					<h2 class='text-lg font-semibold mb-2'>Our API</h2>
-					<ul class='space-y-2'>
-						<li>
-							<a href='#api' class='hover:text-blue-400'>
-								API Reference
-							</a>
-						</li>
-						<li>
-							<a href='#api-usage' class='hover:text-blue-400'>
-								API Usage
-							</a>
-						</li>
-					</ul>
-
-					<h2 class='text-lg font-semibold mt-6 mb-2'>Contributing</h2>
-					<ul class='space-y-2'>
-						<li>
-							<a href='#contributing' class='hover:text-blue-400'>
-								How to Contribute
-							</a>
-						</li>
-					</ul>
+		<div className='flex flex-col min-h-screen bg-gray-100'>
+			<div className='flex flex-col md:flex-row flex-1'>
+				{/* Sidebar */}
+				<nav
+					className={`fixed md:static bg-gray-900 text-white p-4 transition-transform duration-300 transform ${
+						isMenuOpen
+							? 'translate-x-0 rounded-tr-lg rounded-br-lg'
+							: '-translate-x-full'
+					} md:translate-x-0`}
+				>
+					<h1 className='text-2xl font-bold mb-4'>Project Documentation</h1>
+					<BranchesBlocksLink group={branches_items} />
+					<BranchBlock
+						items={lonely_items}
+						className='hover:text-medium-yellow'
+					/>
 				</nav>
 
-				<main class='flex-1 p-6'>
+				{/* Main content */}
+				<main className='flex-1 bg-all-black text-white p-4 md:p-6 overflow-y-auto'>
 					<Outlet />
 				</main>
 			</div>
+
+			{/* Mobile Menu Toggle Arrow */}
+			<button
+				onClick={toggleMenu}
+				className={`fixed bottom-4 right-4 z-50 bg-gray-800 text-white p-2 rounded-full transition-opacity duration-300 md:hidden ${
+					isMenuOpen ? 'opacity-100' : 'opacity-75 hover:opacity-100'
+				}`}
+			>
+				{isMenuOpen ? (
+					<ArrowLeftIcon className='h-6 w-6 z' />
+				) : (
+					<ArrowRightIcon className='h-6 w-6' />
+				)}
+			</button>
 		</div>
 	)
 }

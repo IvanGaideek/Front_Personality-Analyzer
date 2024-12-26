@@ -38,7 +38,7 @@ export const NavDialogPanel = () => {
 							</NavLink>
 							<DialogListItems title='Features' />
 							<NavLink
-								to='/docs/api'
+								to='/docs/api-overview'
 								className='-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-black-alpha-10'
 							>
 								API

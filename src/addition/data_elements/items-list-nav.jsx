@@ -15,7 +15,7 @@ const features = [
 	{
 		name: 'Documentation',
 		description: 'Instructions on how to use the platform.',
-		href: '/docs/manual',
+		href: '/docs/app-usage',
 		icon: DocumentTextIcon,
 	},
 	{

@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import FullForPage from '../components/organisms/FullForPage'
 import Docs from '../components/pages/Docs'
 import Footer from '../components/organisms/footer'
+import OverviewAboutUs from '../addition/data_elements/pages_docs/about_us/Overview'
 
 function App() {
 	return (
@@ -12,12 +13,15 @@ function App() {
 				<Route path='/' element={<FullForPage />}>
 					<Route index element={<MainPage />} />
 					<Route path='/docs' element={<Docs />}>
-						<Route path='/docs/overview' element={'overview'} />
-						<Route path='/docs/api' element={'...'} />
-						<Route path='/docs/team' element={'...'} />
-						<Route path='/docs/manual' element={'fast start'} />
-						<Route path='/docs/policy' element={'...'} />
-						<Route path='/docs/contact' element={'contact'} />
+						<Route path='/docs/overview' element={<OverviewAboutUs />} />
+						<Route path='/docs/team' element={'team'} />
+						<Route path='/docs/fast-start' element={'fast start'} />
+						<Route path='/docs/policy' element={'policy'} />
+						<Route path='/docs/contacts' element={'contacts'} />
+						<Route path='/docs/app-usage' element={'Use app'} />
+						<Route path='/docs/api-overview' element={'Api overview'} />
+						<Route path='/docs/api-usage' element={'Api use'} />
+						<Route path='/docs/gratitude' element={'Gratitude'} />
 					</Route>
 				</Route>
 				<Route path='/register' element={'Register'} />

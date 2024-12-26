@@ -1,12 +1,23 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
-export default function LinkItem({ text, href = '#', className = '' }) {
+export default function LinkItem({
+	text,
+	href = '#',
+	className = '',
+	navLink = false,
+}) {
 	return (
 		<div>
-			<Link to={href} class={className}>
-				{text}
-			</Link>
+			{navLink ? (
+				<NavLink to={href} className={className}>
+					{text}
+				</NavLink>
+			) : (
+				<Link to={href} className={className}>
+					{text}
+				</Link>
+			)}
 		</div>
 	)
 }

@@ -11,12 +11,12 @@ const footer_items = [
 	},
 	{
 		text: 'Documentation',
-		href: '/docs/manual',
+		href: '/docs/fast-start',
 		className: 'me-4 md:me-6',
 	},
 	{
 		text: 'Contacts',
-		href: '/docs/contact',
+		href: '/docs/contacts',
 		className: '',
 	},
 ]
