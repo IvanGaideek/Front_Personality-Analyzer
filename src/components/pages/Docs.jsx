@@ -19,22 +19,22 @@ export default function Docs() {
 			<div className='flex flex-col md:flex-row flex-1'>
 				{/* Sidebar */}
 				<nav
-					className={`fixed md:static bg-gray-900 text-white p-4 transition-transform duration-300 transform ${
+					className={`fixed md:static z-10 bg-gray-900 text-white p-4 transition-transform duration-300 transform ${
 						isMenuOpen
 							? 'translate-x-0 rounded-tr-lg rounded-br-lg'
 							: '-translate-x-full'
 					} md:translate-x-0`}
 				>
-					<h1 className='text-2xl font-bold mb-4'>Project Documentation</h1>
+					<h1 className='text-2xl mb-4 poppins-bold'>Project Documentation</h1>
 					<BranchesBlocksLink group={branches_items} />
 					<BranchBlock
 						items={lonely_items}
-						className='hover:text-medium-yellow'
+						className='hover:text-medium-yellow lato-regular'
 					/>
 				</nav>
 
 				{/* Main content */}
-				<main className='flex-1 bg-all-black text-white p-4 md:p-6 overflow-y-auto'>
+				<main className='flex-1 z-100 bg-all-black text-white p-4 md:p-6 overflow-y-auto'>
 					<Outlet />
 				</main>
 			</div>

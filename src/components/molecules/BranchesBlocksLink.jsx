@@ -7,7 +7,8 @@ export const BranchesBlocksLink = ({ group = [] }) => {
 			{group.map(item => (
 				<BranchBlock
 					title={item.title}
-					className='hover:text-medium-yellow'
+					fontBlock='lato-bold'
+					className='hover:text-medium-yellow lato-regular'
 					items={item.items}
 					key={item.title}
 				/>

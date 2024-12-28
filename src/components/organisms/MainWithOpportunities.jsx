@@ -4,13 +4,13 @@ import { main_cards_center } from '../../addition/data_elements/items-cards'
 
 export default function CenterMainPage() {
 	return (
-		<div class='flex-grow bg-all-black circle-bi'>
-			<div class='flex justify-center p-9'>
-				<div class='w-max'>
-					<h1 class='overflow-hidden text-center whitespace-nowrap text-white poppins-bold text-3xl'>
+		<div className='flex-grow bg-all-black circle-bi'>
+			<div className='flex justify-center p-9'>
+				<div className='w-max'>
+					<h1 className='overflow-hidden text-center whitespace-nowrap text-white poppins-bold text-3xl'>
 						Our Products:
 					</h1>
-					<h2 class='animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white text-white poppins text-xl '>
+					<h2 className='animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white text-white poppins text-xl '>
 						Try our personality analyzers!!!
 					</h2>
 				</div>

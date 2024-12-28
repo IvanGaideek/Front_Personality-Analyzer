@@ -4,9 +4,9 @@ import { Header } from './header'
 
 export default function FullForPage() {
 	return (
-		<div className='flex-container'>
+		<>
 			<Header />
 			<Outlet />
-		</div>
+		</>
 	)
 }

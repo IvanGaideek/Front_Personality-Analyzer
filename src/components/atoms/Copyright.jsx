@@ -9,9 +9,12 @@ export default function Сopyright({ align_style = '', color = '', team = '' }) 
 		' ' +
 		'block text-sm'
 	return (
-		<span class={className}>
+		<span className={className}>
 			© 2025{' '}
-			<Link to='/docs/team' class='hover:underline text-almost-white lato-bold'>
+			<Link
+				to='/docs/team'
+				className='hover:underline text-almost-white lato-bold'
+			>
 				{team}™
 			</Link>
 			. All Rights Reserved.

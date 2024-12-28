@@ -10,9 +10,9 @@ export default function Footer() {
 	const team = 'Noname'
 
 	return (
-		<footer class='bg-white shadow dark:bg-gray-900'>
-			<div class='w-full max-w-screen-xl mx-auto p-4 md:py-8'>
-				<div class='sm:flex sm:items-center sm:justify-between'>
+		<footer className='bg-white shadow dark:bg-gray-900'>
+			<div className='w-full max-w-screen-xl mx-auto p-4 md:py-8'>
+				<div className='sm:flex sm:items-center sm:justify-between'>
 					<IconAndTeam
 						Image={UserGroupIcon}
 						team={team}
