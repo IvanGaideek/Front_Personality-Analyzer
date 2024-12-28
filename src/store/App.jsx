@@ -5,6 +5,7 @@ import FullForPage from '../components/organisms/FullForPage'
 import Docs from '../components/pages/Docs'
 import Footer from '../components/organisms/footer'
 import OverviewAboutUs from '../addition/data_elements/pages_docs/about_us/Overview'
+import Team from '../addition/data_elements/pages_docs/about_us/Team'
 
 function App() {
 	return (
@@ -15,7 +16,7 @@ function App() {
 						<Route index element={<MainPage />} />
 						<Route path='/docs' element={<Docs />}>
 							<Route path='/docs/overview' element={<OverviewAboutUs />} />
-							<Route path='/docs/team' element={'team'} />
+							<Route path='/docs/team' element={<Team />} />
 							<Route path='/docs/fast-start' element={'fast start'} />
 							<Route path='/docs/policy' element={'policy'} />
 							<Route path='/docs/contacts' element={'contacts'} />
