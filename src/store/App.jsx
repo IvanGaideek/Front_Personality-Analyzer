@@ -6,6 +6,7 @@ import Docs from '../components/pages/Docs'
 import Footer from '../components/organisms/footer'
 import OverviewAboutUs from '../addition/data_elements/pages_docs/about_us/Overview'
 import Team from '../addition/data_elements/pages_docs/about_us/Team'
+import Profile from '../components/pages/Profile'
 
 function App() {
 	return (
@@ -28,7 +29,7 @@ function App() {
 					</Route>
 					<Route path='/register' element={'Register'} />
 					<Route path='/login' element={'Login'} />
-					<Route path='/profile' element={'Profile user'} />
+					<Route path='/profile' element={<Profile />} />
 					<Route path='*' element={'Not Found'} />
 				</Routes>
 				<Footer />

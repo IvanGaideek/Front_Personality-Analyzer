@@ -4,7 +4,7 @@ import { main_cards_center } from '../../addition/data_elements/items-cards'
 
 export default function CenterMainPage() {
 	return (
-		<div className='flex-grow bg-all-black circle-bi'>
+		<div className='flex-grow flex-container bg-all-black circle-bi'>
 			<div className='flex justify-center p-9'>
 				<div className='w-max'>
 					<h1 className='overflow-hidden text-center whitespace-nowrap text-white poppins-bold text-3xl'>
