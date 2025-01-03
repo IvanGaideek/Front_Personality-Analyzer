@@ -81,7 +81,7 @@ body {
 .circle-bi {
 	width: 100%; /* Устанавливаем ширину элемента */
 	height: auto; /* Устанавливаем высоту элемента */
-	background-image: url('resources/img/1_background.svg'); /* Путь к вашему изображению */
+	background-image: url('resources/img/1_background.svg');
 	background-size: cover; /* Изображение будет растягиваться, чтобы покрыть весь элемент */
 	background-position: center; /* Центрируем изображение */
 }
@@ -89,4 +89,11 @@ body {
 .active {
 	/* for NavLink*/
 	text-decoration: underline;
+}
+
+.right-top-circle-bi {
+	background-image: url('resources/img/3_background.svg');
+	background-position: right top;
+	background-repeat: no-repeat;
+	background-size: 45% auto;
 }

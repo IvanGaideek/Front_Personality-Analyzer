@@ -7,6 +7,7 @@ import Footer from '../components/organisms/footer'
 import OverviewAboutUs from '../addition/data_elements/pages_docs/about_us/Overview'
 import Team from '../addition/data_elements/pages_docs/about_us/Team'
 import Profile from '../components/pages/Profile'
+import DatabaseSearch from '../components/organisms/DatabaseSearch'
 
 function App() {
 	return (
@@ -30,6 +31,7 @@ function App() {
 					<Route path='/register' element={'Register'} />
 					<Route path='/login' element={'Login'} />
 					<Route path='/profile' element={<Profile />} />
+					<Route path='/data-search' element={<DatabaseSearch />} />
 					<Route path='*' element={'Not Found'} />
 				</Routes>
 				<Footer />

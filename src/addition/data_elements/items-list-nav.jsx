@@ -9,7 +9,7 @@ const features = [
 		name: 'My Data search',
 		description:
 			'To search, filter, evaluate and download your data on the analyzed personalities.',
-		href: '/notfound',
+		href: '/data-search',
 		icon: ChartPieIcon,
 	},
 	{
