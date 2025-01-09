@@ -97,3 +97,122 @@ body {
 	background-repeat: no-repeat;
 	background-size: 45% auto;
 }
+
+/* Стилизация контейнера пагинации */
+
+.datatable-pagination {
+	display: flex;
+	align-items: center; /* Выравнивание по центру по вертикали */
+	justify-content: center; /* Центрирование по горизонтали */
+	padding: 1rem; /* Отступы */
+	border-radius: 0.375rem; /* Скругление углов */
+	box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1); /* Тень */
+	background-color: transparent; /* Фоновый цвет */
+	position: fixed; /* Фиксированное позиционирование */
+	bottom: 0; /* Прикрепление к нижней части экрана */
+	left: 0; /* Начало от левой стороны */
+	right: 0; /* Расширение до правой стороны */
+	z-index: 1000; /* Высокий приоритет отображения */
+}
+
+/* Стилизация кнопок пагинации */
+.datatable-pagination-list {
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem; /* Отступы между кнопками */
+	padding: 0.5rem; /* Внутренние отступы */
+	background-color: black; /* Фоновый цвет кнопок */
+	color: white; /* Цвет текста */
+	border: 1px solid white; /* Граница */
+	border-radius: 0.375rem; /* Скругление углов */
+	margin-left: 0.5rem; /* Отступ между кнопками */
+	transition: background-color 0.3s; /* Плавный переход */
+}
+
+/* Эффект наведения */
+.datatable-pagination-list:hover {
+	background-color: rgb(25, 25, 25); /* Цвет фона при наведении */
+}
+
+/* Активная кнопка */
+.datatable-active {
+	color: #fcda45;
+	border-color: transparent; /* Убираем границу для активной кнопки */
+}
+
+/* Стилизация для элемента, если нет доступа */
+.datatable-info {
+	margin-left: 1rem; /* Пример отступа */
+	font-weight: 300; /* Пример жирного текста */
+	font-family: 'OpenSans', Courier, monospace;
+	color: white;
+}
+
+/* Стилизация для элемента - search input */
+
+.datatable-search {
+	display: flex; /* Используем Flexbox для расположения элементов в ряд */
+	align-items: center; /* Выравнивание по вертикали по центру */
+	border-radius: 0.5rem; /* Скругление углов контейнера */
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Тень для вызова глубины */
+}
+
+.datatable-search input[type='search'] {
+	font-family: 'OpenSans';
+	height: 40px; /* Высота поля ввода */
+	padding: 0 1.25rem; /* Внутренние отступы слева и справа */
+	width: 100%; /* Ширина поля ввода занимает доступное место */
+	border: 2px solid #ffd700; /* Золотистая рамка */
+	border-radius: 0 0.5rem 0.5rem 0; /* Скругление углов только справа */
+	color: #fff; /* Цвет текста */
+	font-size: 0.875rem; /* Размер шрифта */
+	outline: none; /* Убираем стандартный контур */
+	transition: border-color 0.2s ease; /* Плавный переход для границы */
+}
+
+.datatable-search input[type='search']::placeholder {
+	color: rgb(100, 100, 100); /* Цвет подсказки */
+	opacity: 1; /* Непрозрачность для запроса */
+}
+
+.datatable-search input[type='search']:focus {
+	border-color: #fcda45; /* Цвет рамки при фокусировке */
+	box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); /* Тень при фокусировке */
+}
+
+/* Стили для селектора */
+.datatable-selector {
+	height: 2.6rem;
+	color: black;
+	display: flex; /* Flex-контейнер для селектора */
+	align-items: center;
+	background-color: white; /* Фоновый цвет */
+	border-radius: 0.5rem; /* Скругление углов селектора */
+	box-shadow: 0 2px 10px rgba(256, 256, 256, 0.1); /* Тень для глубины */
+	border: 1px solid #d1d5db; /* Серый цвет границы */
+	padding: 0.5rem; /* Внутренние отступы */
+}
+
+/* Selector с label */
+.datatable-dropdown label {
+	display: flex; /* Flex-контейнер для селектора */
+	align-items: stretch;
+	flex-direction: row-reverse;
+	gap: 5px;
+	font-size: 0.005rem;
+}
+
+.datatable-selector:focus {
+	border: 2px solid #fcda45; /* Цвет рамки при фокусировке (жёлтый) */
+}
+
+/* Стили для select и search */
+.datatable-top {
+	margin: 0.5rem; /* Отступы */
+	position: relative;
+	display: flex; /* Flexbox для выравнивания элементов */
+	align-items: center; /* Выравнивание элементов по центру */
+	gap: 5%; /* Отступы между элементами */
+	background-color: transparent; /* Фоновый цвет для видимости */
+	z-index: 1000; /* Выровнен выше других элементов */
+}

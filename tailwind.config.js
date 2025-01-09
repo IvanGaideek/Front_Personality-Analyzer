@@ -1,6 +1,8 @@
+const flowbite = require('flowbite-react/tailwind')
+
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ['./src/**/*.{js,jsx,ts,tsx}'],
+	content: ['./src/**/*.{js,jsx,ts,tsx}', flowbite.content()],
 	theme: {
 		screens: {
 			lg: '1024px',
@@ -52,5 +54,10 @@ export default {
 			},
 		},
 	},
-	plugins: [],
+	plugins: [
+		require('flowbite/plugin')({
+			datatables: true,
+		}),
+		flowbite.plugin(),
+	],
 }

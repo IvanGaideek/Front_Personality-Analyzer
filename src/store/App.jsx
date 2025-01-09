@@ -27,6 +27,9 @@ function App() {
 							<Route path='/docs/api-usage' element={'Api use'} />
 							<Route path='/docs/gratitude' element={'Gratitude'} />
 						</Route>
+						<Route path='/product' element={'Product'}>
+							<Route path='/product/personal-aa' element={'Personal AA'} />
+						</Route>
 					</Route>
 					<Route path='/register' element={'Register'} />
 					<Route path='/login' element={'Login'} />

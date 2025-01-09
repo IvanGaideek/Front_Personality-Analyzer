@@ -12,11 +12,11 @@ export default function OverviewAboutUs() {
 								A Large-Scale personality analysis platform
 							</h2>
 							<p className='text-almost-white open-sans text-base font-normal leading-relaxed lg:text-start text-center'>
-								As an example: The platform provides the user with the
-								opportunity to analyze a person based on the provided data
-								(questionnaires, resumes, characteristics, tests, etc.), while
-								the system generates a compact database with the key
-								characteristics of the analyzed people.
+								The platform provides the user with the opportunity to analyze a
+								person based on the provided data (questionnaires, resumes,
+								characteristics, tests, etc.), while the system generates a
+								compact database with the key characteristics of the analyzed
+								people.
 							</p>
 						</div>
 						<Link

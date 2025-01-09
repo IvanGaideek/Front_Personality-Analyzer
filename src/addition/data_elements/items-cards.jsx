@@ -21,7 +21,7 @@ const main_cards_center = [
 		name: 'PersonalAA',
 		description:
 			'Chat with a personalized AI to analyze your personality and make informed decisions!',
-		href: '#',
+		href: '/product/personal-aa',
 	},
 ]
 

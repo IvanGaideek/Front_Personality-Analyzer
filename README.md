@@ -14,6 +14,5 @@ Currently, two official plugins are available:
 - Посмотрите, как устанавливать npm и установите самостоятельно его
 - git clone https://github.com/IvanGaideek/Front_Personality-Analyzer.git
 - npm install
-- Скачивайте по плану представленному здесь: (https://tailwindcss.com/docs/installation/using-postcss)
 
 For start Frontend site command: npm run dev
