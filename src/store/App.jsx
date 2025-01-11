@@ -8,6 +8,8 @@ import OverviewAboutUs from '../addition/data_elements/pages_docs/about_us/Overv
 import Team from '../addition/data_elements/pages_docs/about_us/Team'
 import Profile from '../components/pages/Profile'
 import DatabaseSearch from '../components/organisms/DatabaseSearch'
+import ChatAi from '../components/organisms/ChatAi'
+import Product from '../components/pages/Product'
 
 function App() {
 	return (
@@ -27,8 +29,8 @@ function App() {
 							<Route path='/docs/api-usage' element={'Api use'} />
 							<Route path='/docs/gratitude' element={'Gratitude'} />
 						</Route>
-						<Route path='/product' element={'Product'}>
-							<Route path='/product/personal-aa' element={'Personal AA'} />
+						<Route path='/product' element={<Product />}>
+							<Route path='/product/personal-aa' element={<ChatAi />} />
 						</Route>
 					</Route>
 					<Route path='/register' element={'Register'} />

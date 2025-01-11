@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Настройка стилей для прокрутки в стиле */
+::-webkit-scrollbar {
+	width: 8px; /* Ширина полосы прокрутки */
+}
+::-webkit-scrollbar-thumb {
+	background-color: #f1d066; /* Цвет желтой полосы прокрутки */
+	border-radius: 10px; /* Закругленные формы полосы */
+}
+::-webkit-scrollbar-track {
+	background: #444; /* Фон полосы прокрутки */
+}
+
 html,
 body {
 	height: 100%;
@@ -78,6 +90,7 @@ body {
 	flex: 1; /* Позволяет основному контенту занимать доступное пространство */
 }
 
+/* backgrounds */
 .circle-bi {
 	width: 100%; /* Устанавливаем ширину элемента */
 	height: auto; /* Устанавливаем высоту элемента */
@@ -86,16 +99,24 @@ body {
 	background-position: center; /* Центрируем изображение */
 }
 
-.active {
-	/* for NavLink*/
-	text-decoration: underline;
-}
-
 .right-top-circle-bi {
 	background-image: url('resources/img/3_background.svg');
 	background-position: right top;
 	background-repeat: no-repeat;
 	background-size: 45% auto;
+}
+
+.right-top-circle-2-bi {
+	background-image: url('resources/img/4_background.svg');
+	background-position: right top;
+	background-repeat: no-repeat;
+	background-size: 36% auto;
+}
+/* --- */
+
+.active {
+	/* for NavLink*/
+	text-decoration: underline;
 }
 
 /* Стилизация контейнера пагинации */
