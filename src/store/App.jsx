@@ -1,7 +1,7 @@
 import { React } from 'react'
 import MainPage from '../components/pages/Main'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import FullForPage from '../components/organisms/FullForPage'
+import FullForPage from '../components/pages/FullForPage'
 import Docs from '../components/pages/Docs'
 import Footer from '../components/organisms/footer'
 import OverviewAboutUs from '../addition/data_elements/pages_docs/about_us/Overview'
@@ -10,6 +10,9 @@ import Profile from '../components/pages/Profile'
 import DatabaseSearch from '../components/organisms/DatabaseSearch'
 import ChatAi from '../components/organisms/ChatAi'
 import Product from '../components/pages/Product'
+import IntoSystem from '../components/pages/IntoSystem'
+import SignIn from '../components/organisms/SignIn'
+import SignUp from '../components/organisms/SignUp'
 
 function App() {
 	return (
@@ -33,8 +36,10 @@ function App() {
 							<Route path='/product/personal-aa' element={<ChatAi />} />
 						</Route>
 					</Route>
-					<Route path='/register' element={'Register'} />
-					<Route path='/login' element={'Login'} />
+					<Route path='/into-system' element={<IntoSystem />}>
+						<Route path='/into-system/register' element={<SignUp />} />
+						<Route index path='/into-system' element={<SignIn />} />
+					</Route>
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/data-search' element={<DatabaseSearch />} />
 					<Route path='*' element={'Not Found'} />
