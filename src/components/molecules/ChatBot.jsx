@@ -3,6 +3,8 @@ import AnswerBot from './AnswerBot'
 import InputButton from '../atoms/InputButton'
 
 export default function ChatBot() {
+	const maxLength = 4000
+
 	const [inputText, setInputText] = useState('')
 	const [messages, setMessages] = useState([])
 	const [loading, setLoading] = useState(false)
@@ -53,7 +55,7 @@ export default function ChatBot() {
 				messages={messages}
 				loading={loading}
 			/>
-			<div className='flex mb-4'>
+			<div className='flex flex-row gap-3 items-center justify-between mb-4'>
 				<InputButton
 					handleInputChange={handleInputChange}
 					handleKeyPress={handleKeyPress}
@@ -61,6 +63,7 @@ export default function ChatBot() {
 					inputText={inputText}
 					titleButton='Send'
 					loading={loading}
+					maxLength={maxLength}
 				/>
 			</div>
 		</>
