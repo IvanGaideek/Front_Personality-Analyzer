@@ -1,7 +1,6 @@
 import React from 'react'
-import ChatBot from '../molecules/ChatBot'
 
-export default function ChatAi({ title = 'AI Chat Bot' }) {
+export default function ChatAi({ title = 'AI Chat Bot', chat }) {
 	return (
 		<div className='flex flex-col h-screen p-4 sm:p-6 bg-transparent text-white'>
 			<div className='mb-4'>
@@ -9,7 +8,7 @@ export default function ChatAi({ title = 'AI Chat Bot' }) {
 					{title}
 				</h1>
 			</div>
-			<ChatBot />
+			{chat}
 		</div>
 	)
 }

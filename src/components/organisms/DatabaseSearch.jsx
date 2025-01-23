@@ -207,7 +207,11 @@ export default function DatabaseSearch() {
 											</option>
 										))}
 									</select>
-									<DeleteButton text='Delete SelectedTable' />
+									<DeleteButton
+										text='Delete SelectedTable'
+										title='Delete the selected table'
+										description='Are you sure you want to permanently delete this table?'
+									/>
 								</div>
 							</>
 						) : (

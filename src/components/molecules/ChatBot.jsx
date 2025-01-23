@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import AnswerBot from './AnswerBot'
 import InputButton from '../atoms/InputButton'
 
-export default function ChatBot() {
-	const maxLength = 4000
-
+export default function ChatBot({ maxLength = 4000 }) {
 	const [inputText, setInputText] = useState('')
 	const [messages, setMessages] = useState([])
 	const [loading, setLoading] = useState(false)

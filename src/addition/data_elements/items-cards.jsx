@@ -3,7 +3,7 @@ const main_cards_center = [
 		name: 'Myers–Briggs Type Indicator',
 		description:
 			'Discover the types today and discover the potential of the personality!',
-		href: '#',
+		href: '/product/mbti-classification',
 	},
 	{
 		name: 'Resume Analyzer',

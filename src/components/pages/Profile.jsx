@@ -2,6 +2,7 @@ import React from 'react'
 import LogoutButton from '../atoms/LogoutButton'
 import Settings from '../molecules/settings'
 import { settings } from '../../addition/data_elements/items-settings'
+import DeleteButton from '../atoms/DeleteButton'
 
 export default function Profile() {
 	return (
@@ -27,13 +28,13 @@ export default function Profile() {
 				</div>
 
 				{/* Action Buttons */}
-				<div className='flex justify-end space-x-4'>
-					<a
-						href='#'
+				<div className='flex justify-end gap-4'>
+					<DeleteButton
+						text='Delete'
+						title='Confirm the deletion'
+						description='Are you sure you want to delete your account along with other dependent data?'
 						className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 text-sm/6 rounded-full transition duration-200 focus:outline-none poppins focus:ring focus:ring-medium-gray mr-2 border-2 border-all-black'
-					>
-						Delete
-					</a>
+					/>
 					<LogoutButton />
 				</div>
 			</div>

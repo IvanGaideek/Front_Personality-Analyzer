@@ -13,6 +13,8 @@ import Product from '../components/pages/Product'
 import IntoSystem from '../components/pages/IntoSystem'
 import SignIn from '../components/organisms/SignIn'
 import SignUp from '../components/organisms/SignUp'
+import ChatBot from '../components/molecules/ChatBot'
+import ChatMbti from '../components/organisms/ChatMbti'
 
 function App() {
 	return (
@@ -33,7 +35,16 @@ function App() {
 							<Route path='/docs/gratitude' element={'Gratitude'} />
 						</Route>
 						<Route path='/product' element={<Product />}>
-							<Route path='/product/personal-aa' element={<ChatAi />} />
+							<Route
+								path='/product/personal-aa'
+								element={<ChatAi title='AI Chat Bot' chat={<ChatBot />} />}
+							/>
+							<Route
+								path='/product/mbti-classification'
+								element={
+									<ChatAi title='MBTI Classification' chat={<ChatMbti />} />
+								}
+							/>
 						</Route>
 					</Route>
 					<Route path='/into-system' element={<IntoSystem />}>
