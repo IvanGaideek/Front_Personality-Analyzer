@@ -21,18 +21,21 @@ export default function FileUpload() {
 	const [uploading, setUploading] = useState(false)
 	const [uploadSuccess, setUploadSuccess] = useState('')
 
-	const handleFileChange = event => {
+	const handleFileChange = async event => {
 		const selectedFiles = Array.from(event.target.files)
+		await removeFiles() // Заблаговременно удалить старые файлы на сервере
 		processFiles(selectedFiles)
 	}
 
-	const handleFolderChange = event => {
+	const handleFolderChange = async event => {
 		const selectedFiles = Array.from(event.target.files)
-		processFiles(selectedFiles)
+		await removeFiles() // Заблаговременно удалить старые файлы на сервере
+		processFiles(selectedFiles, true)
 	}
 
-	const processFiles = selectedFiles => {
+	const processFiles = (selectedFiles, isFolder = false) => {
 		const validFiles = []
+		let totalSize = 0
 
 		selectedFiles.forEach(file => {
 			if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
@@ -42,18 +45,21 @@ export default function FileUpload() {
 				return
 			}
 
-			if (file.size > MAX_FILE_SIZE) {
-				setError(`Error: File ${file.name} exceeds the maximum size of 5 MB.`)
+			totalSize += file.size
+			if (isFolder && totalSize > MAX_FILE_SIZE) {
+				setError(
+					`Error: Total size of the folder exceeds the maximum size of 5 MB.`
+				)
 				return
 			}
 
 			validFiles.push(file)
 		})
 
-		if (validFiles.length > 0) {
-			setFiles(prevFiles => [...prevFiles, ...validFiles])
+		if (validFiles.length > 0 && (!isFolder || totalSize <= MAX_FILE_SIZE)) {
+			setFiles(validFiles) // Заменить старые файлы новыми
 			setError('')
-			uploadFiles(validFiles) // Upload valid files
+			uploadFiles(validFiles) // Загрузить допустимые файлы
 		}
 	}
 
@@ -66,7 +72,7 @@ export default function FileUpload() {
 		try {
 			setUploading(true)
 			setUploadSuccess('')
-			// Assuming you have a function to get CSRF token
+			// Получить CSRF токен для безопасности
 			const token = await getCSRFToken()
 			const response = await fetch('/upload', {
 				method: 'POST',
@@ -88,17 +94,32 @@ export default function FileUpload() {
 		}
 	}
 
+	const removeFiles = async () => {
+		try {
+			// await fetch('/delete', {
+			// 	method: 'DELETE',
+			// 	headers: {
+			// 		'X-CSRF-Token': await getCSRFToken(),
+			// 	},
+			// })
+			setFiles([]) // Очистить локальный список файлов после удаления на сервере
+		} catch (error) {
+			setError('Error: ' + error.message)
+		}
+	}
+
 	const handleDragOver = event => {
 		event.preventDefault()
 		event.stopPropagation()
 	}
 
-	const handleDrop = event => {
+	const handleDrop = async event => {
 		event.preventDefault()
 		event.stopPropagation()
 		const droppedFiles = Array.from(event.dataTransfer.files)
 		if (droppedFiles.length > 0) {
-			processFiles(droppedFiles)
+			await removeFiles() // Заблаговременно удалить старые файлы на сервере
+			processFiles(droppedFiles, true)
 		}
 	}
 
@@ -106,9 +127,10 @@ export default function FileUpload() {
 		setIsVisible(!isVisible)
 	}
 
-	const handleClear = () => {
-		setFiles([])
+	const handleClear = async () => {
 		setError('')
+		await removeFiles() // Заблаговременно удалить старые файлы на сервере
+		setFiles([])
 		setUploadSuccess('')
 	}
 
