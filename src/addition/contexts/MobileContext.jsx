@@ -14,7 +14,7 @@ export const MobileMenuProvider = ({ children }) => {
 	)
 }
 
-// Создайте хук для использования контекста
+// хук для использования контекста
 export const useMobileMenu = () => {
 	return useContext(MobileMenuContext)
 }

@@ -1,12 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ChatBot from '../molecules/ChatBot'
 import { BoxUploadFiles } from '../molecules/FileUploadingInChat'
+import UploadChatInBD from '../molecules/loadBD/UploadChatInBD'
+import HorizontalLine from '../atoms/HorizontalLine'
+import { UploadEnabled } from '../../addition/contexts/UploadAnalizerData'
 
-export default function FileUpload() {
+export default function ChatMbti({ title }) {
+	const [isUploadEnabled, setUploadEnabled] = useState(false)
+	const [analysisResult, setAnalysisResults] = useState('')
+
+	const handleChatAnalysis = async (person, question, answer) => {
+		try {
+			// const response = await fetch('/save-chat-analysis', {
+			//   method: 'POST',
+			//   headers: {
+			//     'Content-Type': 'application/json',
+			//     'X-CSRF-Token': await getCSRFToken(),
+			//   },
+			//   body: JSON.stringify({
+			//     table: selectedTable,
+			//     personColumn,
+			//     classColumn,
+			//     person,
+			//     question,
+			//     answer,
+			//   }),
+			// });
+
+			// Имитация успешного ответа сервера
+			const response = { ok: true }
+
+			if (!response.ok) {
+				setError('Failed to save chat analysis.')
+			}
+		} catch (error) {
+			setError('Error: ' + error.message)
+		}
+	}
+
+	const handleAnalysisResult = results => {
+		setAnalysisResults(results)
+		results.forEach(async ({ fileName, analysis }) => {
+			await handleChatAnalysis(fileName, 'Analyzed', analysis)
+		})
+
+		setFiles([])
+		setUploadSuccess('Files analyzed and uploaded successfully!')
+	}
+
 	return (
-		<>
-			<BoxUploadFiles path_upload='/mbti/upload' path_delete='/mbti/delete' />
-			<ChatBot maxWords={1024} />
-		</>
+		<UploadEnabled.Provider value={[isUploadEnabled, setUploadEnabled]}>
+			<div className='flex flex-col p-4 sm:p-6 bg-transparent text-white'>
+				<div className='flex flex-col h-screen p-4 sm:p-6 bg-transparent text-white'>
+					<div className='mb-4'>
+						<h1 className='text-2xl sm:text-3xl poppins-bold text-medium-yellow'>
+							{title}
+						</h1>
+					</div>
+					<BoxUploadFiles
+						path_upload='/mbti/upload'
+						path_delete='/mbti/delete'
+						handleAnalysisResult={handleAnalysisResult}
+					/>
+					<ChatBot maxWords={1024} />
+				</div>
+				<div>
+					<HorizontalLine color='border border-almost-white' etc_style='my-4' />
+				</div>
+				<UploadChatInBD />
+			</div>
+		</UploadEnabled.Provider>
 	)
 }

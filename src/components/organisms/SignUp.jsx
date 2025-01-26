@@ -4,6 +4,7 @@ import EmailInput from '../molecules/EmailInput'
 import PasswordInput from '../molecules/PasswordInput'
 import { validateEmail, validatePassword } from '../atoms/validation'
 import BottomIntoSystemForms from '../molecules/BottomIntoSystemForms'
+import CheckboxForm from '../atoms/CheckboxForm'
 
 export default function SignUp() {
 	const [email, setEmail] = useState('')
@@ -80,31 +81,18 @@ export default function SignUp() {
 							required
 						/>
 					</div>
-
-					<div className='flex items-start'>
-						<div className='flex items-center h-5'>
-							<input
-								id='terms'
-								aria-describedby='terms'
-								type='checkbox'
-								className='w-4 h-4 border border-medium-gray rounded bg-black-alpha-20 focus:ring-3 focus:ring-medium-yellow'
-								checked={termsAccepted}
-								onChange={() => setTermsAccepted(!termsAccepted)}
-								required
-							/>
-						</div>
-						<div className='ml-3 text-sm lato-regular text-medium-gray'>
-							<label htmlFor='terms' className='font-light'>
-								I accept the{' '}
-								<a
-									className='font-medium text-medium-yellow hover:underline'
-									href='/docs/policy'
-								>
-									Terms and Conditions
-								</a>
-							</label>
-						</div>
-					</div>
+					<CheckboxForm
+						checked={termsAccepted}
+						onChange={() => setTermsAccepted(!termsAccepted)}
+					>
+						I accept the{' '}
+						<a
+							className='font-medium text-medium-yellow hover:underline'
+							href='/docs/policy'
+						>
+							Terms and Conditions
+						</a>
+					</CheckboxForm>
 
 					<BottomIntoSystemForms
 						submit_name='Sign in'

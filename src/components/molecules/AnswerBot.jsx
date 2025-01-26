@@ -16,7 +16,7 @@ export default function AnswerBot(props) {
 		<div className={props.className}>
 			{props.messages.length === 0 && !props.loading ? (
 				<div className='flex-grow flex items-center justify-center'>
-					<h2 className='text-4xl font-bold lato-bold text-yellow-alpha-80 uppercase'>
+					<h2 className='text-4xl font-bold lato-bold text-yellow-alpha-80 uppercase text-center'>
 						Start chatting with the bot
 					</h2>
 				</div>

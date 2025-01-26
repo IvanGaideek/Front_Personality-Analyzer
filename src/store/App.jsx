@@ -8,7 +8,6 @@ import OverviewAboutUs from '../addition/data_elements/pages_docs/about_us/Overv
 import Team from '../addition/data_elements/pages_docs/about_us/Team'
 import Profile from '../components/pages/Profile'
 import DatabaseSearch from '../components/organisms/DatabaseSearch'
-import ChatAi from '../components/organisms/ChatAi'
 import Product from '../components/pages/Product'
 import IntoSystem from '../components/pages/IntoSystem'
 import SignIn from '../components/organisms/SignIn'
@@ -37,15 +36,11 @@ function App() {
 						<Route path='/product' element={<Product />}>
 							<Route
 								path='/product/personal-aa'
-								element={
-									<ChatAi title='AI Chat Bot' chat={<ChatPersonalAA />} />
-								}
+								element={<ChatPersonalAA title='AI Chat Bot' />}
 							/>
 							<Route
 								path='/product/mbti-classification'
-								element={
-									<ChatAi title='MBTI Classification' chat={<ChatMbti />} />
-								}
+								element={<ChatMbti title='MBTI Classification' />}
 							/>
 						</Route>
 					</Route>
