@@ -1,25 +1,29 @@
 import React, { useState } from 'react'
 
 export default function InputButton(props) {
-	const maxLength = props.maxLength
+	const maxWords = props.maxWords
 
-	const [charCount, setCharCount] = useState(maxLength) // Установите счетчик символов
+	// Установить счетчик слов
+	const [wordCount, setWordCount] = useState(getWordCount(props.inputText))
 
+	// Функция для подсчета слов
+	function getWordCount(text) {
+		return text.trim() === '' ? 0 : text.trim().split(/\s+/).length
+	}
+
+	// Обработчик изменения ввода
 	const handleInputChange = event => {
 		const { value } = event.target
-		if (value.length <= maxLength) {
-			setCharCount(value.length)
+		const wc = getWordCount(value)
+		if (wc <= maxWords) {
+			setWordCount(wc)
 			props.handleInputChange(event)
 		}
 	}
 
 	return (
 		<>
-			{' '}
-			{/* Основной контейнер на всю ширину */}
 			<div className='relative w-full'>
-				{' '}
-				{/* Контейнер для input и счетчика */}
 				<input
 					type='text'
 					value={props.inputText}
@@ -27,11 +31,10 @@ export default function InputButton(props) {
 					onKeyPress={props.handleKeyPress}
 					className='w-full p-2 border border-medium-gray bg-gray-800 text-white rounded-lg focus:outline-none focus:ring focus:ring-medium-yellow open-sans sm:text-lg'
 					placeholder='Enter a message...'
-					maxLength={maxLength}
 				/>
 				<div className='rounded-lg text-xs poppins-bold absolute right-1 bottom-1 text-medium-yellow bg-black-alpha-70'>
 					<span className='p-1'>
-						{props.inputText.length} / {maxLength}
+						{wordCount} / {maxWords}
 					</span>
 				</div>
 			</div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import AnswerBot from './AnswerBot'
 import InputButton from '../atoms/InputButton'
 
-export default function ChatBot({ maxLength = 4000 }) {
+export default function ChatBot({ maxWords = 4000 }) {
 	const [inputText, setInputText] = useState('')
 	const [messages, setMessages] = useState([])
 	const [loading, setLoading] = useState(false)
@@ -61,7 +61,7 @@ export default function ChatBot({ maxLength = 4000 }) {
 					inputText={inputText}
 					titleButton='Send'
 					loading={loading}
-					maxLength={maxLength}
+					maxWords={maxWords}
 				/>
 			</div>
 		</>
