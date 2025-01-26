@@ -7,44 +7,41 @@ import { UploadEnabled } from '../../addition/contexts/UploadAnalizerData'
 
 export default function ChatMbti({ title }) {
 	const [isUploadEnabled, setUploadEnabled] = useState(false)
-	const [analysisResult, setAnalysisResults] = useState('')
+	const [analysisResults, setAnalysisResults] = useState([])
 
 	const handleChatAnalysis = async (person, question, answer) => {
 		try {
-			// const response = await fetch('/save-chat-analysis', {
-			//   method: 'POST',
-			//   headers: {
-			//     'Content-Type': 'application/json',
-			//     'X-CSRF-Token': await getCSRFToken(),
-			//   },
-			//   body: JSON.stringify({
-			//     table: selectedTable,
-			//     personColumn,
-			//     classColumn,
-			//     person,
-			//     question,
-			//     answer,
-			//   }),
-			// });
-
-			// Имитация успешного ответа сервера
-			const response = { ok: true }
+			const response = await fetch('/save-chat-analysis', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': await getCSRFToken(),
+				},
+				body: JSON.stringify({
+					table: selectedTable,
+					personColumn,
+					classColumn,
+					person,
+					question,
+					answer,
+				}),
+			})
 
 			if (!response.ok) {
-				setError('Failed to save chat analysis.')
+				throw new Error('Failed to save chat analysis.')
 			}
 		} catch (error) {
-			setError('Error: ' + error.message)
+			console.error('Error:', error.message)
 		}
 	}
 
 	const handleAnalysisResult = results => {
 		setAnalysisResults(results)
+
 		results.forEach(async ({ fileName, analysis }) => {
 			await handleChatAnalysis(fileName, 'Analyzed', analysis)
 		})
 
-		setFiles([])
 		setUploadSuccess('Files analyzed and uploaded successfully!')
 	}
 
@@ -57,16 +54,23 @@ export default function ChatMbti({ title }) {
 							{title}
 						</h1>
 					</div>
+
 					<BoxUploadFiles
 						path_upload='/mbti/upload'
 						path_delete='/mbti/delete'
 						handleAnalysisResult={handleAnalysisResult}
+						analysisResults={analysisResults}
 					/>
-					<ChatBot maxWords={1024} />
+
+					{analysisResults.length > 0 && (
+						<ChatBot maxWords={1024} initialMessages={analysisResults} />
+					)}
 				</div>
+
 				<div>
 					<HorizontalLine color='border border-almost-white' etc_style='my-4' />
 				</div>
+
 				<UploadChatInBD />
 			</div>
 		</UploadEnabled.Provider>

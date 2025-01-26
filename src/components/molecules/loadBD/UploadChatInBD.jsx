@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import CheckboxForm from '../../atoms/CheckboxForm'
 import { UploadEnabled } from '../../../addition/contexts/UploadAnalizerData'
 
-export default function UploadChatInBD() {
+const UploadChatInBD = () => {
 	const [isUploadEnabled, setUploadEnabled] = useContext(UploadEnabled)
 	const [tables, setTables] = useState([])
 	const [selectedTable, setSelectedTable] = useState('')
@@ -15,34 +15,11 @@ export default function UploadChatInBD() {
 	const [uploadSuccess, setUploadSuccess] = useState('')
 
 	useEffect(() => {
-		// fetchTables();
-		// Имитация загрузки данных с сервера
 		const mockTables = ['Table1', 'Table2', 'Table3']
 		setTables(mockTables)
 	}, [])
 
-	// const fetchTables = async () => {
-	//   try {
-	//     const response = await fetch('/tables');
-	//     const data = await response.json();
-	//     setTables(data.tables);
-	//   } catch (error) {
-	//     setError('Error fetching tables: ' + error.message);
-	//   }
-	// };
-
-	// const fetchColumns = async (table) => {
-	//   try {
-	//     const response = await fetch(`/columns?table=${table}`);
-	//     const data = await response.json();
-	//     setColumns(data.columns);
-	//   } catch (error) {
-	//     setError('Error fetching columns: ' + error.message);
-	//   }
-	// };
-
 	const fetchColumns = async table => {
-		// Имитация загрузки данных с сервера
 		const mockColumns = ['Column1', 'Column2', 'Column3', 'Person', 'Class']
 		setColumns(mockColumns)
 	}
@@ -71,11 +48,11 @@ export default function UploadChatInBD() {
 			formData.append('classColumn', classColumn)
 
 			// const response = await fetch('/upload-data', {
-			//   method: 'POST',
-			//   headers: {
-			//     'X-CSRF-Token': await getCSRFToken(),
-			//   },
-			//   body: formData,
+			//   method: 'POST',
+			//   headers: {
+			//     'X-CSRF-Token': await getCSRFToken(),
+			//   },
+			//   body: formData,
 			// });
 
 			// Имитация успешного ответа сервера
@@ -95,30 +72,27 @@ export default function UploadChatInBD() {
 
 	const handleChatAnalysis = async (person, question, answer) => {
 		try {
-			// const response = await fetch('/save-chat-analysis', {
-			//   method: 'POST',
-			//   headers: {
-			//     'Content-Type': 'application/json',
-			//     'X-CSRF-Token': await getCSRFToken(),
-			//   },
-			//   body: JSON.stringify({
-			//     table: selectedTable,
-			//     personColumn,
-			//     classColumn,
-			//     person,
-			//     question,
-			//     answer,
-			//   }),
-			// });
-
-			// Имитация успешного ответа сервера
-			const response = { ok: true }
+			const response = await fetch('/save-chat-analysis', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-Token': await getCSRFToken(),
+				},
+				body: JSON.stringify({
+					table: selectedTable,
+					personColumn,
+					classColumn,
+					person,
+					question,
+					answer,
+				}),
+			})
 
 			if (!response.ok) {
-				setError('Failed to save chat analysis.')
+				throw new Error('Failed to save chat analysis.')
 			}
 		} catch (error) {
-			setError('Error: ' + error.message)
+			console.error('Error:', error.message)
 		}
 	}
 
@@ -157,7 +131,6 @@ export default function UploadChatInBD() {
 							))}
 						</select>
 					</div>
-
 					{selectedTable && (
 						<>
 							<div className='flex flex-row items-center justify-content gap-2 mb-4 mt-4'>
@@ -180,7 +153,6 @@ export default function UploadChatInBD() {
 									))}
 								</select>
 							</div>
-
 							<div className='flex flex-row items-center justify-content gap-2 mb-4 mt-4'>
 								<label className='text-white poppins mb-2'>
 									Select Class Column:
@@ -203,11 +175,35 @@ export default function UploadChatInBD() {
 							</div>
 						</>
 					)}
+					<input
+						type='file'
+						onChange={handleUploadFiles}
+						accept='.pdf, .txt, .docx'
+						className='hidden'
+						id='file-upload-multiple'
+					/>
+					<div className='flex flex-row items-center justify-content gap-4'>
+						<label
+							htmlFor='file-upload-multiple'
+							className='cursor-pointer bg-almost-white text-all-black text-xs md:text-base px-4 py-2 rounded-lg hover:bg-all-black hover:text-almost-white hover:border'
+						>
+							Select files
+						</label>
+						{files.length > 0 && (
+							<button
+								onClick={handleUploadData}
+								className='bg-green-500 text-white text-xs md:text-base px-4 py-2 rounded-lg'
+							>
+								Upload
+							</button>
+						)}
+					</div>
 				</>
 			)}
-
 			{error && <p className='text-red-500'>{error}</p>}
 			{uploadSuccess && <p className='text-green-500'>{uploadSuccess}</p>}
 		</div>
 	)
 }
+
+export default UploadChatInBD

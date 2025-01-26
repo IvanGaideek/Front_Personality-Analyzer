@@ -1,166 +1,40 @@
 import React, { useState } from 'react'
 import { ChevronDoubleLeftIcon } from '@heroicons/react/24/outline'
+import UploadControls from '../atoms/uploading_file_or_folder/UploadControls'
+import AnalyzeEverything from '../atoms/uploading_file_or_folder/AnalyzeEverything'
+import UploadStatus from '../atoms/uploading_file_or_folder/UploadStatus'
+import FileList from '../atoms/uploading_file_or_folder/FileList'
+import ChatBot from './ChatBot'
 
 const MAX_SIZE_MB = 5
-const MAX_FILE_SIZE = MAX_SIZE_MB * 1024 * 1024 // 5 MB
+const MAX_FILE_SIZE = MAX_SIZE_MB * 1024 * 1024
 const ACCEPTED_FILE_TYPES = [
 	'application/pdf',
 	'text/plain',
 	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
 
-// Обрезка слов
-const truncateFilename = (filename, maxLength = 38) => {
-	if (filename.length <= maxLength) return filename
-	const partLength = Math.floor((maxLength - 3) / 2)
-	return filename.slice(0, partLength) + '...' + filename.slice(-partLength)
-}
-
-function UploadControls({
-	handleFileChange,
-	handleFolderChange,
-	files,
-	handleClear,
-}) {
-	return (
-		<>
-			<input
-				type='file'
-				onChange={handleFileChange}
-				accept='.pdf, .txt, .docx'
-				className='hidden'
-				id='file-upload-single'
-			/>
-			<input
-				type='file'
-				onChange={handleFolderChange}
-				accept='.pdf, .txt, .docx'
-				webkitdirectory=''
-				directory=''
-				className='hidden'
-				id='file-upload-folder'
-			/>
-			<div className='flex flex-row items-center justify-content gap-4'>
-				<label
-					htmlFor='file-upload-single'
-					className='cursor-pointer bg-almost-white text-all-black text-xs md:text-base px-4 py-2 rounded-lg hover:bg-all-black hover:text-almost-white hover:border'
-				>
-					Select individual file
-				</label>
-				<label
-					htmlFor='file-upload-folder'
-					className='cursor-pointer bg-almost-white text-all-black text-xs md:text-base px-4 py-2 rounded-lg hover:bg-all-black hover:text-almost-white hover:border'
-				>
-					Select folder
-				</label>
-				{files.length > 0 && (
-					<button
-						onClick={handleClear}
-						className='bg-red-500 text-white text-xs md:text-base px-4 py-2 rounded-lg'
-					>
-						Clear
-					</button>
-				)}
-			</div>
-		</>
-	)
-}
-
-function UploadStatus({ error, uploading, uploadSuccess }) {
-	return (
-		<>
-			{error && <p className='mt-1 text-red-500 text-sm open-sans'>{error}</p>}
-			{uploading && <p className='mt-1 text-white'>Uploading...</p>}
-			{uploadSuccess && (
-				<p className='mt-1 text-medium-yellow'>{uploadSuccess}</p>
-			)}
-		</>
-	)
-}
-
-function FileList({ files }) {
-	return (
-		<div className='mt-4 max-h-40 overflow-y-auto'>
-			{files.length > 0 && (
-				<ul>
-					{files.map(file => (
-						<li key={file.name} className='truncate'>
-							{truncateFilename(file.name)}
-						</li>
-					))}
-				</ul>
-			)}
-		</div>
-	)
-}
-
-function AnalyzeEverything({ files, setError, handleAnalysisResult }) {
-	const analyzeFiles = async () => {
-		try {
-			const formData = new FormData()
-			files.forEach(file => {
-				formData.append('files', file)
-			})
-
-			// Отправка файлов на сервер для анализа
-			const response = await fetch('/analyze-files', {
-				method: 'POST',
-				headers: {
-					'X-CSRF-Token': await getCSRFToken(),
-				},
-				body: formData,
-			})
-
-			// Имитация успешного ответа сервера и анализа
-			// const mockResponse = { ok: true, results: files.map(file => ({ fileName: file.name, analysis: `Analysis of ${file.name}` })) };
-			// const resultData = await mockResponse.json();
-			// if (mockResponse.ok) {
-			// Реальный ответ сервера
-			const resultData = await response.json()
-			if (response.ok) {
-				handleAnalysisResult(resultData.results)
-			} else {
-				setError('File analysis failed.')
-			}
-		} catch (error) {
-			setError('Error: ' + error.message)
-		}
-	}
-
-	return (
-		<>
-			{files.length > 0 && (
-				<button
-					onClick={analyzeFiles}
-					className='cursor-pointer bg-almost-white text-all-black text-xs md:text-base px-4 py-2 rounded-lg hover:bg-all-black hover:text-almost-white hover:border'
-				>
-					Analyze Everything
-				</button>
-			)}
-		</>
-	)
-}
-
-function BoxUploadFiles({
+const BoxUploadFiles = ({
 	path_upload,
 	path_delete,
-	handleAnalysisResult = null,
-}) {
+	handleAnalysisResult,
+	analysisResults,
+}) => {
 	const [files, setFiles] = useState([])
 	const [error, setError] = useState('')
-	const [isVisible, setIsVisible] = useState(true)
 	const [uploading, setUploading] = useState(false)
 	const [uploadSuccess, setUploadSuccess] = useState('')
+	const [isVisible, setIsVisible] = useState(true)
 
 	const handleFileChange = async event => {
 		const selectedFiles = Array.from(event.target.files)
-		await removeFiles() // Заблаговременно удалить старые файлы на сервере
+		await removeFiles()
 		processFiles(selectedFiles)
 	}
 
 	const handleFolderChange = async event => {
 		const selectedFiles = Array.from(event.target.files)
-		await removeFiles() // Заблаговременно удалить старые файлы на сервере
+		await removeFiles()
 		processFiles(selectedFiles, true)
 	}
 
@@ -188,9 +62,9 @@ function BoxUploadFiles({
 		})
 
 		if (validFiles.length > 0 && (!isFolder || totalSize <= MAX_FILE_SIZE)) {
-			setFiles(validFiles) // Заменить старые файлы новыми
+			setFiles(validFiles)
 			setError('')
-			uploadFiles(validFiles) // Загрузить допустимые файлы
+			uploadFiles(validFiles)
 		}
 	}
 
@@ -222,10 +96,8 @@ function BoxUploadFiles({
 
 	const removeFiles = async () => {
 		try {
-			await fetch(path_delete, {
-				method: 'DELETE',
-			})
-			setFiles([]) // Очистить локальный список файлов после удаления на сервере
+			await fetch(path_delete, { method: 'DELETE' })
+			setFiles([])
 		} catch (error) {
 			setError('Error: ' + error.message)
 		}
@@ -241,7 +113,7 @@ function BoxUploadFiles({
 		event.stopPropagation()
 		const droppedFiles = Array.from(event.dataTransfer.files)
 		if (droppedFiles.length > 0) {
-			await removeFiles() // Заблаговременно удалить старые файлы на сервере
+			await removeFiles()
 			processFiles(droppedFiles, true)
 		}
 	}
@@ -252,7 +124,7 @@ function BoxUploadFiles({
 
 	const handleClear = async () => {
 		setError('')
-		await removeFiles() // Заблаговременно удалить старые файлы на сервере
+		await removeFiles()
 		setFiles([])
 		setUploadSuccess('')
 	}
@@ -282,7 +154,7 @@ function BoxUploadFiles({
 						handleClear={handleClear}
 					/>
 					<FileList files={files} />
-					{handleAnalysisResult && files.length > 0 && !uploading && (
+					{files.length > 0 && !uploading && (
 						<AnalyzeEverything
 							files={files}
 							setError={setError}
@@ -303,6 +175,9 @@ function BoxUploadFiles({
 				>
 					<ChevronDoubleLeftIcon className='text-medium-yellow w-6 h-auto' />
 				</button>
+			)}
+			{analysisResults.length > 0 && (
+				<ChatBot maxWords={4000} initialMessages={analysisResults} />
 			)}
 		</div>
 	)
