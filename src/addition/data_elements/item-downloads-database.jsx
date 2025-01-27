@@ -1,19 +1,19 @@
 const downloads_database = [
 	{
 		id: 'export-csv',
-		title: 'Экспорт в CSV',
+		title: 'Export to CSV',
 	},
 	{
 		id: 'export-json',
-		title: 'Экспорт в JSON',
+		title: 'Export to JSON',
 	},
 	{
 		id: 'export-txt',
-		title: 'Экспорт в TXT',
+		title: 'Export to TXT',
 	},
 	{
 		id: 'export-sql',
-		title: 'Экспорт в SQL',
+		title: 'Export to SQL',
 	},
 ]
 

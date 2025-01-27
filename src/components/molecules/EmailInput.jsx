@@ -7,7 +7,7 @@ const EmailInput = ({ email, setEmail }) => {
 				htmlFor='email'
 				className='block mb-2 text-sm lato-bold text-medium-gray'
 			>
-				Your email
+				Your email <span className='text-red-500'>*</span>
 			</label>
 			<input
 				type='email'

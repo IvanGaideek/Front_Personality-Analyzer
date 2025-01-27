@@ -7,7 +7,7 @@ const PasswordInput = ({ password, setPassword, errorMessage }) => {
 				htmlFor='password'
 				className='block mb-2 text-sm lato-bold text-medium-gray'
 			>
-				Password
+				Password <span className='text-red-500'>*</span>
 			</label>
 			<input
 				type='password'

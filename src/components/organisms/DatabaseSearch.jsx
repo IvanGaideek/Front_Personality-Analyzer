@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import MainScreenTable from './MainScreenTable'
 import DeleteButton from '../atoms/DeleteButton'
+import ModalTableCreationTool from '../molecules/modelCreateTable/CreateTableModal'
 
 export default function DatabaseSearch() {
 	const [tables, setTables] = useState([]) // Состояние для таблиц
@@ -179,7 +180,7 @@ export default function DatabaseSearch() {
 		}
 
 		fetchData()
-	}, [selectedTable]) // Пример вызова функции для загрузки данных
+	}, [selectedTable])
 
 	return (
 		<div className='flex-container bg-all-black right-top-circle-bi'>
@@ -207,11 +208,14 @@ export default function DatabaseSearch() {
 											</option>
 										))}
 									</select>
-									<DeleteButton
-										text='Delete SelectedTable'
-										title='Delete the selected table'
-										description='Are you sure you want to permanently delete this table?'
-									/>
+									<div className='flex flex-col items-center gap-2'>
+										<DeleteButton
+											text='Delete SelectedTable'
+											title='Delete the selected table'
+											description='Are you sure you want to permanently delete this table?'
+										/>
+										<ModalTableCreationTool />
+									</div>
 								</div>
 							</>
 						) : (

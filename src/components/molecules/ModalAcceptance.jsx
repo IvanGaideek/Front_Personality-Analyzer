@@ -3,7 +3,6 @@ import React from 'react'
 export default function ModalAcceptance(props) {
 	const handleDelete = () => {
 		// Логика удаления
-		console.log('Удаление...')
 		props.setModalIsOpen(false)
 	}
 

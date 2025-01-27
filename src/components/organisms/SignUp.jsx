@@ -68,7 +68,7 @@ export default function SignUp() {
 							htmlFor='confirm-password'
 							className='block mb-2 text-sm lato-bold text-medium-gray'
 						>
-							Confirm password
+							Confirm password <span className='text-red-500'>*</span>
 						</label>
 						<input
 							type='password'
