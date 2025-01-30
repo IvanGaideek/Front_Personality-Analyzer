@@ -44,7 +44,15 @@ export default function DatabaseSearch() {
 						let fakeResponse
 						if (selectedTable === 'table2') {
 							fakeResponse = {
-								columns: ['Name', 'Category', 'Brand', 'Price', 'Stock'],
+								columns: [
+									{ name: 'id', type: 'INTEGER' },
+									{ name: 'Name', type: 'VARCHAR' },
+									{ name: 'Category', type: 'VARCHAR' },
+									{ name: 'Brand', type: 'VARCHAR' },
+									{ name: 'Price', type: 'VARCHAR' },
+									{ name: 'Stock', type: 'INTEGER' },
+									{ name: 'How', type: 'BOOLEAN' },
+								], // имя колонки - тип данных колонки
 								data: [
 									{
 										id: 12,
@@ -53,6 +61,7 @@ export default function DatabaseSearch() {
 										brand: 'Brand 1',
 										price: '$100',
 										stock: 10,
+										how: true,
 									},
 									{
 										id: 13,
@@ -61,6 +70,7 @@ export default function DatabaseSearch() {
 										brand: 'Brand 2',
 										price: '$200',
 										stock: 20,
+										how: false,
 									},
 									{
 										id: 14,
@@ -69,6 +79,7 @@ export default function DatabaseSearch() {
 										brand: 'Brand 3',
 										price: '$300',
 										stock: 30,
+										how: true,
 									},
 								],
 							}
@@ -76,18 +87,19 @@ export default function DatabaseSearch() {
 						if (selectedTable === 'table1') {
 							fakeResponse = {
 								columns: [
-									'Name',
-									'Category',
-									'Brand',
-									'Price',
-									'Stock',
-									'Total Sales',
-									'Status',
-								],
+									{ name: 'id', type: 'INTEGER' },
+									{ name: 'Name', type: 'VARCHAR' },
+									{ name: 'Category', type: 'VARCHAR' },
+									{ name: 'Brand', type: 'VARCHAR' },
+									{ name: 'Price', type: 'VARCHAR' },
+									{ name: 'Stock', type: 'INTEGER' },
+									{ name: 'Total_Sales', type: 'DECIMAL' },
+									{ name: 'Status', type: 'VARCHAR' },
+								], // имя колонки - тип данных колонки
 								data: [
 									{
 										id: 1,
-										name: 'Apple iMac',
+										name: 'Apple iMac hefvhjehrvhjehbjv',
 										category: 'Computers',
 										brand: 'Apple',
 										price: '$1,299',

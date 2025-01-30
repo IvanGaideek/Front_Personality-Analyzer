@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	DataTable,
 	exportCSV,
@@ -6,13 +6,17 @@ import {
 	exportSQL,
 	exportTXT,
 } from 'simple-datatables'
-
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import ListButtonsDownloads from '../molecules/ListButtonsDownloads'
 import { downloads_database } from '../../addition/data_elements/item-downloads-database'
+import UpdateModalTable from '../molecules/modelUpdateTable/UpdateModalTable'
 
 export default function MainScreenTable({ columns, data }) {
-	// для инициализации DataTable
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+	const [editedData, setEditedData] = useState({})
+	const [error, setError] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
+
 	useEffect(() => {
 		// Проверяем, чтобы загрузка завершилась и таблица была создана
 		const tableElement = document.getElementById('filter-table')
@@ -81,6 +85,61 @@ export default function MainScreenTable({ columns, data }) {
 		}
 	}, [data])
 
+	// Обработчик клика по строке
+	const handleRowClick = rowData => {
+		setEditedData(rowData)
+		setIsEditModalOpen(true)
+	}
+
+	// Обработчик сохранения изменений
+	const handleSave = async () => {
+		try {
+			setError('') // Очищаем предыдущие ошибки
+			setIsLoading(true) // Опционально: показываем состояние загрузки
+
+			const response = await fetch('/api/update-row', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					// Добавьте другие необходимые заголовки (например, авторизацию)
+				},
+				body: JSON.stringify(editedData),
+			})
+
+			let errorMessage = 'Failed to update data'
+
+			if (!response.ok) {
+				try {
+					const errorData = await response.json()
+
+					// Обработка различных форматов ответа сервера
+					errorMessage =
+						errorData?.message || // Стандартное поле message
+						errorData?.error || // Альтернативное поле error
+						errorData?.errors?.[0] || // Массив ошибок
+						response.statusText || // HTTP статус
+						errorMessage // Дефолтное сообщение
+				} catch (parseError) {
+					// Если не удалось распарсить JSON, используем HTTP статус
+					errorMessage =
+						`${response.status}: ${response.statusText}` || errorMessage
+				}
+
+				throw new Error(errorMessage)
+			}
+
+			const data = await response.json()
+
+			// Успешное обновление
+			setIsEditModalOpen(false)
+			// Здесь можно добавить обновление данных в таблице
+		} catch (error) {
+			setError(error.message)
+		} finally {
+			setIsLoading(false) // Опционально: скрываем состояние загрузки
+		}
+	}
+
 	return (
 		<>
 			<div className='overflow-x-auto'>
@@ -96,7 +155,7 @@ export default function MainScreenTable({ columns, data }) {
 									className='px-6 py-3 text-left text-sm font-medium'
 								>
 									<span className='flex items-center'>
-										{heading}
+										{heading.name}
 										<ChevronUpDownIcon className='w-4 h-4 ms-1' />
 									</span>
 								</th>
@@ -107,15 +166,15 @@ export default function MainScreenTable({ columns, data }) {
 						{data.map((item, index) => (
 							<tr
 								key={item.id || index}
-								className='border-b hover:bg-medium-gray transition duration-150'
+								className='border-b hover:bg-medium-gray transition duration-150 cursor-pointer'
+								onClick={() => handleRowClick(item)}
 							>
 								{columns.map((column, columnIndex) => (
 									<td
 										key={columnIndex}
 										className='px-6 py-4 font-medium text-gray-800'
 									>
-										{item[column.toLowerCase().replace(/ /g, '_')]}
-										{/* Преобразование ключа в формат объекта */}
+										{item[column.name.toLowerCase().replace(/ /g, '_')]}
 									</td>
 								))}
 							</tr>
@@ -123,6 +182,19 @@ export default function MainScreenTable({ columns, data }) {
 					</tbody>
 				</table>
 			</div>
+
+			{isEditModalOpen && (
+				<UpdateModalTable
+					setIsEditModalOpen={setIsEditModalOpen}
+					columns={columns}
+					handleSave={handleSave}
+					editedData={editedData}
+					setEditedData={setEditedData}
+					error={error}
+					isLoading={isLoading}
+				/>
+			)}
+
 			<ListButtonsDownloads
 				className='flex items-center justify-end gap-2 md:gap-4 my-2'
 				data={downloads_database}

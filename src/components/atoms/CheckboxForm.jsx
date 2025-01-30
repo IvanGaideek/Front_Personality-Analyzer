@@ -1,6 +1,8 @@
 import React from 'react'
 
 export default function CheckboxForm(props) {
+	const disabled = props.disabled === true
+
 	return (
 		<div className='flex items-start'>
 			<div className='flex items-center h-5'>
@@ -11,6 +13,7 @@ export default function CheckboxForm(props) {
 					className='w-4 h-4 border border-medium-gray rounded bg-black-alpha-20 focus:ring-3 focus:ring-medium-yellow'
 					checked={props.checked}
 					onChange={props.onChange}
+					disabled={disabled}
 					required
 				/>
 			</div>
