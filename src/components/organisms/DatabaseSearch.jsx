@@ -236,7 +236,11 @@ export default function DatabaseSearch() {
 					</div>
 					{loading && <div className='text-white'>Loading...</div>}
 					{!loading && !error && selectedTable && (
-						<MainScreenTable columns={columns} data={data} loading={loading} />
+						<MainScreenTable
+							columns={columns}
+							data={data}
+							selectedTable={selectedTable}
+						/>
 					)}
 				</>
 			)}

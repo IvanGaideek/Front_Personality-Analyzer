@@ -11,11 +11,12 @@ import ListButtonsDownloads from '../molecules/ListButtonsDownloads'
 import { downloads_database } from '../../addition/data_elements/item-downloads-database'
 import UpdateModalTable from '../molecules/modelUpdateTable/UpdateModalTable'
 
-export default function MainScreenTable({ columns, data }) {
+export default function MainScreenTable({ columns, data, selectedTable }) {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 	const [editedData, setEditedData] = useState({})
 	const [error, setError] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
+	const [oldData, setOldData] = useState({})
 
 	useEffect(() => {
 		// Проверяем, чтобы загрузка завершилась и таблица была создана
@@ -88,11 +89,16 @@ export default function MainScreenTable({ columns, data }) {
 	// Обработчик клика по строке
 	const handleRowClick = rowData => {
 		setEditedData(rowData)
+		setOldData(rowData)
 		setIsEditModalOpen(true)
 	}
 
 	// Обработчик сохранения изменений
 	const handleSave = async () => {
+		if (oldData === editedData) {
+			setError('No changes to save')
+			return
+		}
 		try {
 			setError('') // Очищаем предыдущие ошибки
 			setIsLoading(true) // Опционально: показываем состояние загрузки
@@ -137,6 +143,37 @@ export default function MainScreenTable({ columns, data }) {
 			setError(error.message)
 		} finally {
 			setIsLoading(false) // Опционально: скрываем состояние загрузки
+		}
+	}
+
+	// Добавьте функцию для удаления строки
+	const handleDelete = async () => {
+		setError('') // Очищаем предыдущие ошибки
+		setIsLoading(true) // Опционально: показываем состояние загрузки
+		try {
+			const response = await fetch('/api/delete-row', {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					id: editedData.id,
+					tableName: selectedTable,
+				}),
+			})
+
+			if (!response.ok) {
+				setError('Failed to delete row')
+			}
+
+			// После успешного удаления
+			setIsEditModalOpen(false)
+			// Обновление данных в таблице, удалив строку
+			// const newData = data.filter(row => row.id !== editedData.id)
+			setData(newData)
+		} catch (error) {
+			// Передача сообщения об ошибке
+			setError('Failed to delete row')
 		}
 	}
 
@@ -192,6 +229,7 @@ export default function MainScreenTable({ columns, data }) {
 					setEditedData={setEditedData}
 					error={error}
 					isLoading={isLoading}
+					handleDelete={handleDelete}
 				/>
 			)}
 

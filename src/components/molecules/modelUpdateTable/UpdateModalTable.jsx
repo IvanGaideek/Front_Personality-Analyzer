@@ -102,11 +102,19 @@ export default function UpdateModalTable(props) {
 						)
 					})}
 				</div>
-				<TwoButtonsAcceptance
-					first_onClick={props.handleSave}
-					second_onClick={() => props.setIsEditModalOpen(false)}
-					names={{ left: 'Save Changes', right: 'Cancel' }}
-				/>
+				<div className='flex flex-row justify-between items-center mt-4 gap-2'>
+					<button
+						onClick={() => props.handleDelete()}
+						className='bg-red-500 hover:bg-red-800 text-almost-white poppins py-2 px-4 rounded-md'
+					>
+						Delete
+					</button>
+					<TwoButtonsAcceptance
+						first_onClick={props.handleSave}
+						second_onClick={() => props.setIsEditModalOpen(false)}
+						names={{ left: 'Save Changes', right: 'Cancel' }}
+					/>
+				</div>
 			</div>
 		</ModalWindow>
 	)
