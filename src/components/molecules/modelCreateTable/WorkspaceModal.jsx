@@ -167,7 +167,7 @@ export default function WorkspaceModal({
 					))}
 				</select>
 			</div>
-			<div className='max-h-[60vh] overflow-y-auto'>
+			<div className='max-h-[42vh] overflow-y-auto'>
 				{columns.map((column, index) => (
 					<div
 						key={index}

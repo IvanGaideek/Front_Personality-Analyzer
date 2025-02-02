@@ -10,9 +10,11 @@ import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import ListButtonsDownloads from '../molecules/ListButtonsDownloads'
 import { downloads_database } from '../../addition/data_elements/item-downloads-database'
 import UpdateModalTable from '../molecules/modelUpdateTable/UpdateModalTable'
+import AddRowModal from '../molecules/add_row_table/AddRowTable'
 
 export default function MainScreenTable({ columns, data, selectedTable }) {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+	const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 	const [editedData, setEditedData] = useState({})
 	const [error, setError] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
@@ -88,9 +90,17 @@ export default function MainScreenTable({ columns, data, selectedTable }) {
 
 	// Обработчик клика по строке
 	const handleRowClick = rowData => {
+		setError('')
 		setEditedData(rowData)
 		setOldData(rowData)
 		setIsEditModalOpen(true)
+	}
+
+	// Обработчик клика по строке
+	const handleAddRowClick = () => {
+		setError('')
+		setEditedData({})
+		setIsAddModalOpen(true)
 	}
 
 	// Обработчик сохранения изменений
@@ -138,19 +148,21 @@ export default function MainScreenTable({ columns, data, selectedTable }) {
 
 			// Успешное обновление
 			setIsEditModalOpen(false)
+			setOldData({})
 			// Здесь можно добавить обновление данных в таблице
 		} catch (error) {
 			setError(error.message)
 		} finally {
 			setIsLoading(false) // Опционально: скрываем состояние загрузки
+			setIsLoading(false)
 		}
 	}
 
 	// Добавьте функцию для удаления строки
 	const handleDelete = async () => {
-		setError('') // Очищаем предыдущие ошибки
-		setIsLoading(true) // Опционально: показываем состояние загрузки
 		try {
+			setError('') // Очищаем предыдущие ошибки
+			setIsLoading(true) // Опционально: показываем состояние загрузки
 			const response = await fetch('/api/delete-row', {
 				method: 'DELETE',
 				headers: {
@@ -174,6 +186,41 @@ export default function MainScreenTable({ columns, data, selectedTable }) {
 		} catch (error) {
 			// Передача сообщения об ошибке
 			setError('Failed to delete row')
+			setIsLoading(false)
+		}
+	}
+
+	// Обработчик добавления новой строки
+	const handleAdd = async () => {
+		console.log(editedData)
+		try {
+			setError('') // Очищаем предыдущие ошибки
+			setIsLoading(true) // Опционально: показываем состояние загрузки
+			const response = await fetch('/api/add-row', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					tableName: selectedTable,
+					rowData: editedData,
+				}),
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to add row')
+			}
+
+			const result = await response.json()
+
+			// Вызываем функцию обновления данных в родительском компоненте
+			props.setIsAddModalOpen(false)
+
+			// Очищаем форму
+			setEditedData({})
+		} catch (error) {
+			setError('Error adding row')
+			setIsLoading(false)
 		}
 	}
 
@@ -233,11 +280,29 @@ export default function MainScreenTable({ columns, data, selectedTable }) {
 				/>
 			)}
 
+			{isAddModalOpen && (
+				<AddRowModal
+					setIsAddModalOpen={setIsAddModalOpen}
+					columns={columns}
+					handleAdd={handleAdd}
+					editedData={editedData}
+					setEditedData={setEditedData}
+					error={error}
+					isLoading={isLoading}
+				/>
+			)}
+
 			<ListButtonsDownloads
 				className='flex items-center justify-end gap-2 md:gap-4 my-2'
 				data={downloads_database}
 				classNameItem='flex items-center px-1 py-1 bg-medium-yellow border-2 border-white text-xs md:text-base text-all-black font-lato-regular rounded-lg shadow-md hover:bg-yellow-alpha-80 transition duration-400'
 			/>
+			<button
+				onClick={() => handleAddRowClick()}
+				className='bg-medium-yellow text-all-black py-2 px-4 m-4 md:mx-52 rounded-md hover:bg-yellow-alpha-80 transition duration-400'
+			>
+				Add New Row
+			</button>
 		</>
 	)
 }
