@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import AnswerBot from './AnswerBot'
 import InputButton from '../atoms/InputButton'
+import {
+	searchClass,
+	constructMessageClass,
+} from '../../addition/function_to_backend/analysis_result_chat'
 
 export default function ChatBot({
 	maxWords = 4000,
@@ -9,6 +13,7 @@ export default function ChatBot({
 	loadingDatabase,
 	loadingMessage,
 	setLoadingMessage,
+	typeAnalysis = 'class_1',
 }) {
 	const [inputText, setInputText] = useState('')
 	const [messages, setMessages] = useState([])
@@ -16,68 +21,24 @@ export default function ChatBot({
 	// Добавляем результаты анализа в чат при их получении
 	useEffect(() => {
 		if (initialMessages.length > 0) {
-			const analysisMessages = constructMessage(initialMessages)
+			const analysisMessages = constructMessageClass(initialMessages)
 			setMessages(prev => [...prev, ...analysisMessages])
 		}
 	}, [initialMessages])
-
-	const constructMessage = data_messages => {
-		return data_messages.map(result => ({
-			text: `${result.personName} - ${result.analysis} -> Write in DB: ${
-				result.writingDatabase
-					? result.writingDatabase
-					: 'Not writing this down'
-			}`,
-			sender: 'bot',
-		}))
-	}
 
 	const handleInputChange = e => {
 		setInputText(e.target.value)
 	}
 
 	const analyzeMessage = async () => {
-		let mockResult = null
-		try {
-			// Разделение текста на две части
-			const [person, ...texts] = inputText.split(' - ')
-			// Склеиваем оставшиеся части обратно (если разделителей было больше одного)
-			const text_user = texts.join(' - ') // отправляю на анализ в бекэнд
-			if (
-				person < 1 ||
-				text_user.split(' ').filter(word => word !== '').length < 4
-			) {
-				mockResult = {
-					personName: 'Error',
-					analysis:
-						'insufficient or incorrect input (check out the documentation)',
-					writingDatabase: 'undefined',
-				}
-			} else if (isDownloadConfirm) {
-				// Имитация ответа от сервера для примера с записью в БД
-				// При отправке запроса передаём loadingDatabase, содержащий информацию, куда записывать результаты
-				console.log(loadingDatabase)
-				mockResult = {
-					personName: person,
-					analysis: 'MBTI',
-					writingDatabase: 'Successful entry in the database!',
-				}
-			} else {
-				// Имитация ответа от сервера для примера без записи в БД
-				mockResult = {
-					personName: person,
-					analysis: 'MBTI',
-					writingDatabase: false,
-				}
-			}
-		} catch (error) {
-			mockResult = {
-				personName: 'Error',
-				analysis: error.messages,
-				writingDatabase: 'undefined',
-			}
+		let analysisMessages = []
+		if (typeAnalysis == 'class_1') {
+			analysisMessages = searchClass(
+				inputText,
+				isDownloadConfirm,
+				loadingDatabase
+			)
 		}
-		const analysisMessages = constructMessage([mockResult])
 		setMessages(prev => [...prev, ...analysisMessages])
 	}
 

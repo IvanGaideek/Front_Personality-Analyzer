@@ -11,8 +11,12 @@ export default function ChatPersonalAA({ title }) {
 						{title}
 					</h1>
 				</div>
-				<BoxUploadFiles path_upload='/ai/upload' path_delete='/ai/delete' />
-				<ChatBot maxWords={3000} />
+				<BoxUploadFiles
+					path_upload='/ai/upload'
+					path_delete='/ai/delete'
+					define_analysis={false}
+				/>
+				<ChatBot maxWords={3000} typeAnalysis='llm' />
 			</div>
 		</>
 	)

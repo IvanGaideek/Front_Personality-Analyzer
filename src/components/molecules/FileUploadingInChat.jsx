@@ -21,6 +21,7 @@ export default function BoxUploadFiles({
 	isDownloadConfirm,
 	loadingDatabase,
 	setLoadingMessage,
+	define_analysis = true,
 }) {
 	const [files, setFiles] = useState([])
 	const [error, setError] = useState('')
@@ -166,7 +167,7 @@ export default function BoxUploadFiles({
 								handleClear={handleClear}
 							/>
 							<FileList files={files} />
-							{files.length > 0 && !uploading && (
+							{files.length > 0 && !uploading && define_analysis && (
 								<AnalyzeEverything
 									files={files}
 									setError={setError}
