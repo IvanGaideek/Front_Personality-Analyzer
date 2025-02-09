@@ -1,14 +1,7 @@
-const searchClass = (inputText, isDownloadConfirm, loadingDatabase) => {
+const searchClass = (inputText, person, isDownloadConfirm, loadingDatabase) => {
 	let mockResult = null
 	try {
-		// Разделение текста на две части
-		const [person, ...texts] = inputText.split(' - ')
-		// Склеиваем оставшиеся части обратно (если разделителей было больше одного)
-		const text_user = texts.join(' - ') // отправляю на анализ в бекэнд
-		if (
-			person < 1 ||
-			text_user.split(' ').filter(word => word !== '').length < 4
-		) {
+		if (inputText.split(' ').filter(word => word !== '').length < 4) {
 			mockResult = {
 				personName: 'Error',
 				analysis:
@@ -17,7 +10,7 @@ const searchClass = (inputText, isDownloadConfirm, loadingDatabase) => {
 			}
 		} else if (isDownloadConfirm) {
 			// Имитация ответа от сервера для примера с записью в БД
-			// При отправке запроса передаём loadingDatabase, содержащий информацию, куда записывать результаты
+			// При отправке запроса передаём person, loadingDatabase, содержащий информацию, куда записывать результаты
 			console.log(loadingDatabase)
 			mockResult = {
 				personName: person,
@@ -51,4 +44,38 @@ const constructMessageClass = data_messages => {
 	}))
 }
 
-export { searchClass, constructMessageClass }
+const searchLlm = (
+	inputText,
+	person,
+	useSearchInternet,
+	isDownloadConfirm,
+	loadingDatabase
+) => {
+	let mockResult = null
+	try {
+		if (inputText.length < 5) {
+			mockResult = 'The question is too short!'
+		} else if (isDownloadConfirm) {
+			// Имитация ответа от сервера для примера с записью в БД
+			// При отправке запроса передаём useSearchInternet (при выборе llm решает использовать поиск или нет), person, loadingDatabase, содержащий информацию, куда записывать результаты
+			const result_analysing = 'Answer bot.'
+			const decisionLlm_use_search_internet = useSearchInternet
+				? 'use'
+				: 'not use'
+			const callback_write_db = 'Successful entry in the database!'
+			mockResult = `${result_analysing} -> Write in DB: ${callback_write_db} Internet search: ${decisionLlm_use_search_internet}`
+		} else {
+			// При отправке запроса передаём useSearchInternet (при выборе llm решает использовать поиск или нет)
+			const result_analysing = 'Answer bot.'
+			const decisionLlm_use_search_internet = useSearchInternet
+				? 'use'
+				: 'not use'
+			mockResult = `${result_analysing} -> Write in DB: Not writing this down. Internet search: ${decisionLlm_use_search_internet}`
+		}
+	} catch (error) {
+		mockResult = 'Error: ' + error.messages
+	}
+	return [{ text: mockResult, sender: 'bot' }]
+}
+
+export { searchClass, constructMessageClass, searchLlm }

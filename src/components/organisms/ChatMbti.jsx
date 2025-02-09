@@ -15,6 +15,7 @@ export default function ChatMbti({ title }) {
 		classColumn: '',
 	}) // куда загружать данные в БД
 	const [loadingMessage, setLoadingMessage] = useState(false)
+	const [personName, setPersonName] = useState('')
 
 	const handleAnalysisResult = results => {
 		// Преобразуем результаты анализа в формат сообщений чата
@@ -42,6 +43,7 @@ export default function ChatMbti({ title }) {
 					loadingDatabase={loadingDatabase}
 					isDownloadConfirm={isDownloadConfirm}
 					setLoadingMessage={setLoadingMessage}
+					typeSave='eachAnalysis_mbti'
 				/>
 
 				<ChatBot
@@ -51,6 +53,7 @@ export default function ChatMbti({ title }) {
 					loadingDatabase={loadingDatabase}
 					loadingMessage={loadingMessage}
 					setLoadingMessage={setLoadingMessage}
+					personName={personName}
 				/>
 			</div>
 
@@ -63,6 +66,8 @@ export default function ChatMbti({ title }) {
 				setDownloadConfirm={setDownloadConfirm}
 				loadingDatabase={loadingDatabase}
 				setLoadingDatabase={setLoadingDatabase}
+				personName={personName}
+				setPersonName={setPersonName}
 			/>
 		</div>
 	)

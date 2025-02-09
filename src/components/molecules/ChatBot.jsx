@@ -4,6 +4,7 @@ import InputButton from '../atoms/InputButton'
 import {
 	searchClass,
 	constructMessageClass,
+	searchLlm,
 } from '../../addition/function_to_backend/analysis_result_chat'
 
 export default function ChatBot({
@@ -14,6 +15,8 @@ export default function ChatBot({
 	loadingMessage,
 	setLoadingMessage,
 	typeAnalysis = 'class_1',
+	personName,
+	useSearchInternet,
 }) {
 	const [inputText, setInputText] = useState('')
 	const [messages, setMessages] = useState([])
@@ -30,11 +33,21 @@ export default function ChatBot({
 		setInputText(e.target.value)
 	}
 
-	const analyzeMessage = async () => {
+	const analyzeMessage = () => {
 		let analysisMessages = []
 		if (typeAnalysis == 'class_1') {
 			analysisMessages = searchClass(
 				inputText,
+				personName,
+				isDownloadConfirm,
+				loadingDatabase
+			)
+		} else if (typeAnalysis == 'llm') {
+			console.log(isDownloadConfirm)
+			analysisMessages = searchLlm(
+				inputText,
+				personName,
+				useSearchInternet,
 				isDownloadConfirm,
 				loadingDatabase
 			)

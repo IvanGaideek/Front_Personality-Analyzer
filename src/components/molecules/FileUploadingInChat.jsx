@@ -22,6 +22,7 @@ export default function BoxUploadFiles({
 	loadingDatabase,
 	setLoadingMessage,
 	define_analysis = true,
+	typeSave,
 }) {
 	const [files, setFiles] = useState([])
 	const [error, setError] = useState('')
@@ -82,6 +83,8 @@ export default function BoxUploadFiles({
 			setUploadSuccess('')
 			const response = await fetch(path_upload, {
 				method: 'POST',
+				files: files,
+				typeSave: typeSave,
 				body: formData,
 			})
 			// response.ok

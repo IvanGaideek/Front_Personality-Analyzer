@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react'
 import CheckboxForm from '../../atoms/CheckboxForm'
 import TextLinkBlock from '../../atoms/TextLinkBlock'
 
+const MAX_LENGTH_NAME = 64 // Максимальная длина
+
 export default function UploadChatInBD({
 	isDownloadConfirm,
 	setDownloadConfirm,
 	loadingDatabase,
 	setLoadingDatabase,
+	personName,
+	setPersonName,
+	func_search_internet = false,
+	useSearchInternet,
+	setUseSearchInternet,
 }) {
 	const [isUploadEnabled, setUploadEnabled] = useState(isDownloadConfirm)
 	const [tables, setTables] = useState([])
@@ -14,7 +21,7 @@ export default function UploadChatInBD({
 	const [error, setError] = useState('')
 
 	useEffect(() => {
-		// взависимости от тавлицы в selectedTable
+		// взависимости от таблицы в selectedTable
 		if (loadingDatabase.selectedTable) {
 			const mockColumns = ['Column1', 'Column2', 'Column3', 'Person', 'Class']
 			setColumns(mockColumns)
@@ -38,7 +45,11 @@ export default function UploadChatInBD({
 
 	// эффект для проверки колонок
 	useEffect(() => {
-		if (loadingDatabase.personColumn && loadingDatabase.classColumn) {
+		if (
+			loadingDatabase.personColumn &&
+			loadingDatabase.classColumn &&
+			personName
+		) {
 			if (loadingDatabase.personColumn === loadingDatabase.classColumn) {
 				setError('Person and Class columns must be different')
 				setDownloadConfirm(false)
@@ -46,10 +57,15 @@ export default function UploadChatInBD({
 				setError('')
 				setDownloadConfirm(true)
 			}
+		} else {
+			setError(
+				'It is impossible to upload to the Database without these filled in fields.'
+			)
+			setDownloadConfirm(false)
 		}
-	}, [loadingDatabase.personColumn, loadingDatabase.classColumn])
+	}, [loadingDatabase.personColumn, loadingDatabase.classColumn, personName])
 
-	const onChangeCheck = async () => {
+	const onChangeCheckUpload = async () => {
 		setError('')
 
 		// Если пытаемся включить
@@ -96,6 +112,14 @@ export default function UploadChatInBD({
 
 	return (
 		<div className='border-2 border-almost-white bg-all-black p-4 max-w-2xl mx-auto rounded-lg'>
+			{func_search_internet && (
+				<CheckboxForm
+					checked={useSearchInternet}
+					onChange={() => setUseSearchInternet(!useSearchInternet)}
+				>
+					Use the internet search
+				</CheckboxForm>
+			)}
 			<h2 className='text-lg font-semibold text-medium-yellow'>
 				Data Upload (Database)
 			</h2>
@@ -103,7 +127,7 @@ export default function UploadChatInBD({
 				Enable data download. Select the table and columns where you want to
 				upload the data.
 			</p>
-			<CheckboxForm checked={isUploadEnabled} onChange={onChangeCheck}>
+			<CheckboxForm checked={isUploadEnabled} onChange={onChangeCheckUpload}>
 				Enable Upload
 			</CheckboxForm>
 			{isUploadEnabled && tables.length > 0 && (
@@ -155,7 +179,7 @@ export default function UploadChatInBD({
 							</div>
 							<div className='flex flex-row items-center justify-content gap-2 mb-4 mt-4'>
 								<label className='text-white poppins mb-2'>
-									Select Class Column:
+									Writing the result to the:
 								</label>
 								<select
 									value={loadingDatabase.classColumn}
@@ -178,11 +202,31 @@ export default function UploadChatInBD({
 									))}
 								</select>
 							</div>
+							<div className='flex flex-row items-center justify-content gap-2 mb-4 mt-4'>
+								<label className='text-white poppins mb-2'>Name person:</label>
+								<div className='relative w-full'>
+									<input
+										type='text'
+										maxLength={MAX_LENGTH_NAME}
+										value={personName}
+										onChange={e => setPersonName(e.target.value)}
+										placeholder='Enter your text here...'
+										className='block w-full w-full px-4 py-2 bg-all-black border border-medium-yellow text-white rounded-lg focus:outline-none focus:ring focus:ring-medium-gray transition duration-200'
+									/>
+									<div className='rounded-lg text-xs poppins-bold absolute right-1 bottom-1 text-medium-yellow bg-black-alpha-70'>
+										<span className='p-1'>
+											{personName.length}/{MAX_LENGTH_NAME}
+										</span>
+									</div>
+								</div>
+							</div>
 						</>
 					)}
 				</>
 			)}
-			{error && <p className='text-red-500 lato-regular'>{error}</p>}
+			{error && isUploadEnabled && (
+				<p className='text-red-500 lato-regular'>{error}</p>
+			)}
 			<TextLinkBlock
 				message='Read the rules for uploading to the database:'
 				link='/docs/app-usage'
