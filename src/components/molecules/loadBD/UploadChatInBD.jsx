@@ -1,99 +1,97 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import CheckboxForm from '../../atoms/CheckboxForm'
-import { UploadEnabled } from '../../../addition/contexts/UploadAnalizerData'
+import TextLinkBlock from '../../atoms/TextLinkBlock'
 
-const UploadChatInBD = () => {
-	const [isUploadEnabled, setUploadEnabled] = useContext(UploadEnabled)
+export default function UploadChatInBD({
+	isDownloadConfirm,
+	setDownloadConfirm,
+	loadingDatabase,
+	setLoadingDatabase,
+}) {
+	const [isUploadEnabled, setUploadEnabled] = useState(isDownloadConfirm)
 	const [tables, setTables] = useState([])
-	const [selectedTable, setSelectedTable] = useState('')
 	const [columns, setColumns] = useState([])
-	const [personColumn, setPersonColumn] = useState('')
-	const [classColumn, setClassColumn] = useState('')
-	const [files, setFiles] = useState([])
 	const [error, setError] = useState('')
-	const [uploading, setUploading] = useState(false)
-	const [uploadSuccess, setUploadSuccess] = useState('')
 
 	useEffect(() => {
-		const mockTables = ['Table1', 'Table2', 'Table3']
-		setTables(mockTables)
-	}, [])
+		// взависимости от тавлицы в selectedTable
+		if (loadingDatabase.selectedTable) {
+			const mockColumns = ['Column1', 'Column2', 'Column3', 'Person', 'Class']
+			setColumns(mockColumns)
+			setLoadingDatabase(prevState => ({
+				...prevState,
+				personColumn: mockColumns[0],
+				classColumn: mockColumns[mockColumns.length - 1],
+			}))
+		} else {
+			setLoadingDatabase(prevState => ({
+				...prevState,
+				personColumn: '',
+				classColumn: '',
+			}))
+			setColumns([])
+			if (isUploadEnabled) {
+				setError('Please select the correct table.')
+			}
+		}
+	}, [loadingDatabase.selectedTable, isUploadEnabled])
 
-	const fetchColumns = async table => {
-		const mockColumns = ['Column1', 'Column2', 'Column3', 'Person', 'Class']
-		setColumns(mockColumns)
+	// эффект для проверки колонок
+	useEffect(() => {
+		if (loadingDatabase.personColumn && loadingDatabase.classColumn) {
+			if (loadingDatabase.personColumn === loadingDatabase.classColumn) {
+				setError('Person and Class columns must be different')
+				setDownloadConfirm(false)
+			} else {
+				setError('')
+				setDownloadConfirm(true)
+			}
+		}
+	}, [loadingDatabase.personColumn, loadingDatabase.classColumn])
+
+	const onChangeCheck = async () => {
+		setError('')
+
+		// Если пытаемся включить
+		if (!isUploadEnabled) {
+			// Сначала получаем таблицы
+			const mockTables = ['Table1', 'Table2', 'Table3']
+			// const mockTables = [] // для тестирования пустого состояния
+
+			// Проверяем наличие таблиц
+			if (mockTables.length === 0) {
+				setError(
+					"You don't have any tables. Please create a table first (in My Data search)."
+				)
+				return // Предотвращаем включение чекбокса
+			}
+
+			// Если таблицы есть, обновляем состояние
+			setTables(mockTables)
+			setLoadingDatabase(prevState => ({
+				...prevState,
+				selectedTable: 'Table1',
+			}))
+			setDownloadConfirm(true)
+			setUploadEnabled(true)
+		} else {
+			// Если выключаем
+			setTables([])
+			setLoadingDatabase(prevState => ({
+				...prevState,
+				selectedTable: '',
+			}))
+			setDownloadConfirm(false)
+			setUploadEnabled(false)
+		}
 	}
 
 	const handleTableChange = event => {
 		const table = event.target.value
-		setSelectedTable(table)
-		fetchColumns(table)
-	}
-
-	const handleUploadFiles = event => {
-		const selectedFiles = Array.from(event.target.files)
-		setFiles(selectedFiles)
-	}
-
-	const handleUploadData = async () => {
-		try {
-			setUploading(true)
-			setUploadSuccess('')
-			const formData = new FormData()
-			files.forEach(file => {
-				formData.append('files', file)
-			})
-			formData.append('table', selectedTable)
-			formData.append('personColumn', personColumn)
-			formData.append('classColumn', classColumn)
-
-			// const response = await fetch('/upload-data', {
-			//   method: 'POST',
-			//   headers: {
-			//     'X-CSRF-Token': await getCSRFToken(),
-			//   },
-			//   body: formData,
-			// });
-
-			// Имитация успешного ответа сервера
-			const response = { ok: true }
-
-			if (response.ok) {
-				setUploadSuccess('Data uploaded successfully!')
-			} else {
-				setError('Data upload failed.')
-			}
-		} catch (error) {
-			setError('Error: ' + error.message)
-		} finally {
-			setUploading(false)
-		}
-	}
-
-	const handleChatAnalysis = async (person, question, answer) => {
-		try {
-			const response = await fetch('/save-chat-analysis', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-CSRF-Token': await getCSRFToken(),
-				},
-				body: JSON.stringify({
-					table: selectedTable,
-					personColumn,
-					classColumn,
-					person,
-					question,
-					answer,
-				}),
-			})
-
-			if (!response.ok) {
-				throw new Error('Failed to save chat analysis.')
-			}
-		} catch (error) {
-			console.error('Error:', error.message)
-		}
+		setLoadingDatabase(prevState => ({
+			...prevState,
+			selectedTable: table,
+		}))
 	}
 
 	return (
@@ -105,18 +103,15 @@ const UploadChatInBD = () => {
 				Enable data download. Select the table and columns where you want to
 				upload the data.
 			</p>
-			<CheckboxForm
-				checked={isUploadEnabled}
-				onChange={() => setUploadEnabled(!isUploadEnabled)}
-			>
+			<CheckboxForm checked={isUploadEnabled} onChange={onChangeCheck}>
 				Enable Upload
 			</CheckboxForm>
-			{isUploadEnabled && (
+			{isUploadEnabled && tables.length > 0 && (
 				<>
 					<div className='flex flex-row items-center justify-content gap-2 mb-4 mt-4'>
 						<label className='text-white poppins mb-2'>Select Table:</label>
 						<select
-							value={selectedTable}
+							value={loadingDatabase.selectedTable}
 							onChange={handleTableChange}
 							className='block w-full md:w-1/3 px-4 py-2 bg-all-black border border-medium-yellow text-white rounded-lg focus:outline-none focus:ring focus:ring-medium-gray transition duration-200'
 						>
@@ -131,15 +126,20 @@ const UploadChatInBD = () => {
 							))}
 						</select>
 					</div>
-					{selectedTable && (
+					{loadingDatabase.selectedTable && (
 						<>
 							<div className='flex flex-row items-center justify-content gap-2 mb-4 mt-4'>
 								<label className='text-white poppins mb-2'>
 									Select Person Column:
 								</label>
 								<select
-									value={personColumn}
-									onChange={e => setPersonColumn(e.target.value)}
+									value={loadingDatabase.personColumn}
+									onChange={e =>
+										setLoadingDatabase(prevState => ({
+											...prevState,
+											personColumn: e.target.value,
+										}))
+									}
 									className='block w-full md:w-1/3 px-4 py-2 bg-all-black border border-medium-yellow text-white rounded-lg focus:outline-none focus:ring focus:ring-medium-gray transition duration-200'
 								>
 									{columns.map(column => (
@@ -158,8 +158,13 @@ const UploadChatInBD = () => {
 									Select Class Column:
 								</label>
 								<select
-									value={classColumn}
-									onChange={e => setClassColumn(e.target.value)}
+									value={loadingDatabase.classColumn}
+									onChange={e =>
+										setLoadingDatabase(prevState => ({
+											...prevState,
+											classColumn: e.target.value,
+										}))
+									}
 									className='block w-full md:w-1/3 px-4 py-2 bg-all-black border border-medium-yellow text-white rounded-lg focus:outline-none focus:ring focus:ring-medium-gray transition duration-200'
 								>
 									{columns.map(column => (
@@ -175,35 +180,15 @@ const UploadChatInBD = () => {
 							</div>
 						</>
 					)}
-					<input
-						type='file'
-						onChange={handleUploadFiles}
-						accept='.pdf, .txt, .docx'
-						className='hidden'
-						id='file-upload-multiple'
-					/>
-					<div className='flex flex-row items-center justify-content gap-4'>
-						<label
-							htmlFor='file-upload-multiple'
-							className='cursor-pointer bg-almost-white text-all-black text-xs md:text-base px-4 py-2 rounded-lg hover:bg-all-black hover:text-almost-white hover:border'
-						>
-							Select files
-						</label>
-						{files.length > 0 && (
-							<button
-								onClick={handleUploadData}
-								className='bg-green-500 text-white text-xs md:text-base px-4 py-2 rounded-lg'
-							>
-								Upload
-							</button>
-						)}
-					</div>
 				</>
 			)}
-			{error && <p className='text-red-500'>{error}</p>}
-			{uploadSuccess && <p className='text-green-500'>{uploadSuccess}</p>}
+			{error && <p className='text-red-500 lato-regular'>{error}</p>}
+			<TextLinkBlock
+				message='Read the rules for uploading to the database:'
+				link='/docs/app-usage'
+				text_link='in documentation'
+				className='mt-6'
+			/>
 		</div>
 	)
 }
-
-export default UploadChatInBD

@@ -1,31 +1,45 @@
 import React from 'react'
 
-const AnalyzeEverything = ({ files, setError, handleAnalysisResult }) => {
+const AnalyzeEverything = ({
+	files,
+	setError,
+	handleAnalysisResult,
+	isDownloadConfirm,
+	loadingDatabase,
+	setLoadingMessage,
+}) => {
 	const analyzeFiles = async () => {
-		try {
-			const formData = new FormData()
-			files.forEach(file => {
-				formData.append('files', file)
-			})
-
-			// Отправка файлов на сервер для анализа
-			const response = await fetch('/analyze-files', {
-				method: 'POST',
-				headers: {
-					'X-CSRF-Token': await getCSRFToken(),
-				},
-				body: formData,
-			})
-
-			const resultData = await response.json()
-			if (response.ok) {
-				handleAnalysisResult(resultData.results)
-			} else {
-				setError('File analysis failed.')
+		setLoadingMessage(true)
+		setTimeout(() => {
+			try {
+				const formData = new FormData()
+				files.forEach(file => {
+					formData.append('files', file)
+				})
+				let mockResults = null
+				if (isDownloadConfirm) {
+					// Имитация ответа от сервера для примера с записью в БД
+					// При отправке запроса передаём loadingDatabase, содержащий информацию, куда записывать результаты
+					console.log(loadingDatabase)
+					mockResults = files.map(file => ({
+						fileName: file.name,
+						analysis: `MBTI`,
+						writingDatabase: 'Successful entry in the database!',
+					}))
+				} else {
+					// Имитация ответа от сервера для примера без записи в БД
+					mockResults = files.map(file => ({
+						fileName: file.name,
+						analysis: `MBTI`,
+						writingDatabase: false,
+					}))
+				}
+				handleAnalysisResult(mockResults)
+			} catch (error) {
+				setError('Error: ' + error.message)
 			}
-		} catch (error) {
-			setError('Error: ' + error.message)
-		}
+			setLoadingMessage(false)
+		}, 2000)
 	}
 
 	return (
@@ -33,7 +47,7 @@ const AnalyzeEverything = ({ files, setError, handleAnalysisResult }) => {
 			{files.length > 0 && (
 				<button
 					onClick={analyzeFiles}
-					className='cursor-pointer bg-almost-white text-all-black text-xs md:text-base px-4 py-2 rounded-lg hover:bg-all-black hover:text-almost-white hover:border'
+					className='cursor-pointer bg-almost-white text-all-black text-xs md:text-base px-4 py-2 rounded-lg hover:bg-all-black hover:text-almost-white hover:border duration-200'
 				>
 					Analyze Everything
 				</button>

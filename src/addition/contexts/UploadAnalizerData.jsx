@@ -1,18 +1,15 @@
-// import { createContext } from 'react'
+// import React, { createContext, useState } from 'react'
 
-// export const UploadEnabled = createContext(false)
-import React, { createContext, useState } from 'react'
+// const UploadEnabled = createContext()
 
-const UploadEnabled = createContext()
+// export const UploadEnabledProvider = ({ children }) => {
+// 	const [isUploadEnabled, setUploadEnabled] = useState(false)
 
-export const UploadEnabledProvider = ({ children }) => {
-	const [isUploadEnabled, setUploadEnabled] = useState(false)
+// 	return (
+// 		<UploadEnabled.Provider value={[isUploadEnabled, setUploadEnabled]}>
+// 			{children}
+// 		</UploadEnabled.Provider>
+// 	)
+// }
 
-	return (
-		<UploadEnabled.Provider value={[isUploadEnabled, setUploadEnabled]}>
-			{children}
-		</UploadEnabled.Provider>
-	)
-}
-
-export { UploadEnabled }
+// export { UploadEnabled }

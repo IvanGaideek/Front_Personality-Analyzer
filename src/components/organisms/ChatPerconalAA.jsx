@@ -1,6 +1,6 @@
 import React from 'react'
 import ChatBot from '../molecules/ChatBot'
-import { BoxUploadFiles } from '../molecules/FileUploadingInChat'
+import BoxUploadFiles from '../molecules/FileUploadingInChat'
 
 export default function ChatPersonalAA({ title }) {
 	return (

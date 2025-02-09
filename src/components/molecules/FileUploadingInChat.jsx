@@ -4,7 +4,7 @@ import UploadControls from '../atoms/uploading_file_or_folder/UploadControls'
 import AnalyzeEverything from '../atoms/uploading_file_or_folder/AnalyzeEverything'
 import UploadStatus from '../atoms/uploading_file_or_folder/UploadStatus'
 import FileList from '../atoms/uploading_file_or_folder/FileList'
-import ChatBot from './ChatBot'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const MAX_SIZE_MB = 5
 const MAX_FILE_SIZE = MAX_SIZE_MB * 1024 * 1024
@@ -14,12 +14,14 @@ const ACCEPTED_FILE_TYPES = [
 	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
 
-const BoxUploadFiles = ({
+export default function BoxUploadFiles({
 	path_upload,
 	path_delete,
 	handleAnalysisResult,
-	analysisResults,
-}) => {
+	isDownloadConfirm,
+	loadingDatabase,
+	setLoadingMessage,
+}) {
 	const [files, setFiles] = useState([])
 	const [error, setError] = useState('')
 	const [uploading, setUploading] = useState(false)
@@ -81,25 +83,29 @@ const BoxUploadFiles = ({
 				method: 'POST',
 				body: formData,
 			})
-
-			if (response.ok) {
+			// response.ok
+			if (true) {
 				setUploadSuccess('Files uploaded successfully!')
 			} else {
 				setError('File upload failed.')
+				setFiles([])
 			}
 		} catch (error) {
 			setError('Error: ' + error.message)
+			setFiles([])
 		} finally {
 			setUploading(false)
 		}
 	}
 
 	const removeFiles = async () => {
-		try {
-			await fetch(path_delete, { method: 'DELETE' })
-			setFiles([])
-		} catch (error) {
-			setError('Error: ' + error.message)
+		if (files.length > 0) {
+			try {
+				await fetch(path_delete, { method: 'DELETE' })
+				setFiles([])
+			} catch (error) {
+				setError('Error: ' + error.message)
+			}
 		}
 	}
 
@@ -131,56 +137,62 @@ const BoxUploadFiles = ({
 
 	return (
 		<div className='flex flex-col items-center mb-4'>
-			{isVisible && (
-				<div
-					className='z-20 flex flex-col items-center justify-center border-dashed border-2 border-almost-white px-4 py-2 rounded-lg w-full max-w-md mx-4 md:mx-12 lg:mx-0 lato-regular'
-					onDragOver={handleDragOver}
-					onDrop={handleDrop}
-				>
-					<button onClick={toggleVisibility} className='mb-2'>
-						<span className='border-2 border-medium-yellow p-1 text-sm rounded-lg hover:bg-yellow-alpha-20'>
-							Hide
-						</span>
-					</button>
-					<h2 className='text-xl mb-2'>Upload files or folder</h2>
-					<p className='mb-1 text-medium-gray'>
-						Supported formats: Word, TXT, PDF
-					</p>
-					<p className='mb-2 text-medium-gray'>Maximum size per file: 5 MB</p>
-					<UploadControls
-						handleFileChange={handleFileChange}
-						handleFolderChange={handleFolderChange}
-						files={files}
-						handleClear={handleClear}
-					/>
-					<FileList files={files} />
-					{files.length > 0 && !uploading && (
-						<AnalyzeEverything
-							files={files}
-							setError={setError}
-							handleAnalysisResult={handleAnalysisResult}
-						/>
+			{uploading ? (
+				<AiOutlineLoading3Quarters className='animate-spin my-4 h-10 w-10' />
+			) : (
+				<>
+					{isVisible && (
+						<div
+							className='z-20 flex flex-col items-center justify-center border-dashed border-2 border-almost-white px-4 py-2 rounded-lg w-full max-w-md mx-4 md:mx-12 lg:mx-0 lato-regular'
+							onDragOver={handleDragOver}
+							onDrop={handleDrop}
+						>
+							<button onClick={toggleVisibility} className='mb-2'>
+								<span className='border-2 border-medium-yellow p-1 text-sm rounded-lg hover:bg-yellow-alpha-20'>
+									Hide
+								</span>
+							</button>
+							<h2 className='text-xl mb-2'>Upload files or folder</h2>
+							<p className='mb-1 text-medium-gray'>
+								Supported formats: Word, TXT, PDF
+							</p>
+							<p className='mb-2 text-medium-gray'>
+								Maximum size per file: 5 MB
+							</p>
+							<UploadControls
+								handleFileChange={handleFileChange}
+								handleFolderChange={handleFolderChange}
+								files={files}
+								handleClear={handleClear}
+							/>
+							<FileList files={files} />
+							{files.length > 0 && !uploading && (
+								<AnalyzeEverything
+									files={files}
+									setError={setError}
+									handleAnalysisResult={handleAnalysisResult}
+									isDownloadConfirm={isDownloadConfirm}
+									loadingDatabase={loadingDatabase}
+									setLoadingMessage={setLoadingMessage}
+								/>
+							)}
+							<UploadStatus
+								error={error}
+								uploading={uploading}
+								uploadSuccess={uploadSuccess}
+							/>
+						</div>
 					)}
-					<UploadStatus
-						error={error}
-						uploading={uploading}
-						uploadSuccess={uploadSuccess}
-					/>
-				</div>
-			)}
-			{!isVisible && (
-				<button
-					onClick={toggleVisibility}
-					className='border-2 border-r-0 border-almost-white fixed p-1 right-0 z-50 bg-all-black text-white rounded-l-full'
-				>
-					<ChevronDoubleLeftIcon className='text-medium-yellow w-6 h-auto' />
-				</button>
-			)}
-			{analysisResults.length > 0 && (
-				<ChatBot maxWords={4000} initialMessages={analysisResults} />
+					{!isVisible && (
+						<button
+							onClick={toggleVisibility}
+							className='border-2 border-r-0 border-almost-white fixed p-1 right-0 z-50 bg-all-black text-white rounded-l-full'
+						>
+							<ChevronDoubleLeftIcon className='text-medium-yellow w-6 h-auto' />
+						</button>
+					)}
+				</>
 			)}
 		</div>
 	)
 }
-
-export { BoxUploadFiles }
