@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import ChatBot from '../molecules/ChatBot'
-import BoxUploadFiles from '../molecules/FileUploadingInChat'
-import HorizontalLine from '../atoms/HorizontalLine'
-import UploadChatInBD from '../molecules/loadBD/UploadChatInBD'
+import ChatBot from '../../molecules/ChatBot'
+import BoxUploadFiles from '../../molecules/FileUploadingInChat'
+import HorizontalLine from '../../atoms/HorizontalLine'
+import UploadChatInBD from '../../molecules/loadBD/UploadChatInBD'
 
 export default function ChatPersonalAA({ title }) {
 	const [isDownloadConfirm, setDownloadConfirm] = useState(false) // состояние дающее разрешение на загрузку в БД данных

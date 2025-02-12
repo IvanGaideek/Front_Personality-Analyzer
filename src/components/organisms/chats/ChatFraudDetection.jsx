@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import ChatBot from '../molecules/ChatBot'
-import BoxUploadFiles from '../molecules/FileUploadingInChat'
-import UploadChatInBD from '../molecules/loadBD/UploadChatInBD'
-import HorizontalLine from '../atoms/HorizontalLine'
+import UploadChatInBD from '../../molecules/loadBD/UploadChatInBD'
+import HorizontalLine from '../../atoms/HorizontalLine'
+import ChatBot from '../../molecules/ChatBot'
+import BoxUploadFiles from '../../molecules/FileUploadingInChat'
 
-const maxWordsChat = 1050
+const maxWordsChat = 1024
 
-export default function ChatMbti({ title }) {
+export default function ChatFraudDetection({ title }) {
 	const [isDownloadConfirm, setDownloadConfirm] = useState(false) // состояние дающее разрешение на загрузку в БД данных
 	const [analysisResults, setAnalysisResults] = useState([])
 	const [loadingDatabase, setLoadingDatabase] = useState({
@@ -35,15 +35,14 @@ export default function ChatMbti({ title }) {
 						{title}
 					</h1>
 				</div>
-
 				<BoxUploadFiles
-					path_upload='/mbti/upload'
-					path_delete='/mbti/delete'
+					path_upload='/fraud-detection/upload'
+					path_delete='/fraud-detection/delete'
 					handleAnalysisResult={handleAnalysisResult}
 					loadingDatabase={loadingDatabase}
 					isDownloadConfirm={isDownloadConfirm}
 					setLoadingMessage={setLoadingMessage}
-					typeSave='eachAnalysis_mbti'
+					typeSave='eachAnalysis_fs_detect'
 				/>
 
 				<ChatBot
@@ -56,7 +55,6 @@ export default function ChatMbti({ title }) {
 					personName={personName}
 				/>
 			</div>
-
 			<div>
 				<HorizontalLine color='border border-almost-white' etc_style='my-4' />
 			</div>

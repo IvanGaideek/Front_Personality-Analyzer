@@ -12,8 +12,9 @@ import Product from '../components/pages/Product'
 import IntoSystem from '../components/pages/IntoSystem'
 import SignIn from '../components/organisms/SignIn'
 import SignUp from '../components/organisms/SignUp'
-import ChatMbti from '../components/organisms/ChatMbti'
-import ChatPersonalAA from '../components/organisms/ChatPerconalAA'
+import ChatPersonalAA from '../components/organisms/chats/ChatPerconalAA'
+import ChatMbti from '../components/organisms/chats/ChatMbti'
+import ChatFraudDetection from '../components/organisms/chats/ChatFraudDetection'
 
 function App() {
 	return (
@@ -41,6 +42,12 @@ function App() {
 							<Route
 								path='/product/mbti-classification'
 								element={<ChatMbti title='MBTI Classification' />}
+							/>
+							<Route
+								path='/product/fraud-detection'
+								element={
+									<ChatFraudDetection title='Fraud & Spam detection chat' />
+								}
 							/>
 						</Route>
 					</Route>
