@@ -95,10 +95,10 @@ export default function SignUp() {
 					</CheckboxForm>
 
 					<BottomIntoSystemForms
-						submit_name='Sign in'
+						submit_name='Sign up'
 						register_link={login_link}
 						question='Don’t have an account yet?'
-						link_name='Sign up'
+						link_name='Sign in'
 					/>
 				</form>
 			</div>
