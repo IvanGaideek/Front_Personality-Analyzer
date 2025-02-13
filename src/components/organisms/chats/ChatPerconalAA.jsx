@@ -38,6 +38,7 @@ export default function ChatPersonalAA({ title }) {
 						setLoadingMessage={setLoadingMessage}
 						useSearchInternet={useSearchInternet}
 						isDownloadConfirm={isDownloadConfirm}
+						personName={personName}
 					/>
 				</div>
 				<div>

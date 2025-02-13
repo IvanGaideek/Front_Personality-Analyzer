@@ -43,7 +43,6 @@ export default function ChatBot({
 				loadingDatabase
 			)
 		} else if (typeAnalysis == 'llm') {
-			console.log(isDownloadConfirm)
 			analysisMessages = searchLlm(
 				inputText,
 				personName,

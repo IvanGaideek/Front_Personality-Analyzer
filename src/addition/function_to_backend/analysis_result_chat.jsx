@@ -8,7 +8,7 @@ const searchClass = (inputText, person, isDownloadConfirm, loadingDatabase) => {
 					'insufficient or incorrect input (check out the documentation)',
 				writingDatabase: 'undefined',
 			}
-		} else if (isDownloadConfirm) {
+		} else if (isDownloadConfirm && person) {
 			// Имитация ответа от сервера для примера с записью в БД
 			// При отправке запроса передаём person, loadingDatabase, содержащий информацию, куда записывать результаты
 			console.log(loadingDatabase)
@@ -55,7 +55,7 @@ const searchLlm = (
 	try {
 		if (inputText.length < 5) {
 			mockResult = 'The question is too short!'
-		} else if (isDownloadConfirm) {
+		} else if (isDownloadConfirm && person) {
 			// Имитация ответа от сервера для примера с записью в БД
 			// При отправке запроса передаём useSearchInternet (при выборе llm решает использовать поиск или нет), person, loadingDatabase, содержащий информацию, куда записывать результаты
 			const result_analysing = 'Answer bot.'
@@ -63,14 +63,14 @@ const searchLlm = (
 				? 'use'
 				: 'not use'
 			const callback_write_db = 'Successful entry in the database!'
-			mockResult = `${result_analysing} -> Write in DB: ${callback_write_db} Internet search: ${decisionLlm_use_search_internet}`
+			mockResult = `${person} - ${result_analysing} -> Write in DB: ${callback_write_db} Internet search: ${decisionLlm_use_search_internet}`
 		} else {
 			// При отправке запроса передаём useSearchInternet (при выборе llm решает использовать поиск или нет)
 			const result_analysing = 'Answer bot.'
 			const decisionLlm_use_search_internet = useSearchInternet
 				? 'use'
 				: 'not use'
-			mockResult = `${result_analysing} -> Write in DB: Not writing this down. Internet search: ${decisionLlm_use_search_internet}`
+			mockResult = `${person} - ${result_analysing} -> Write in DB: Not writing this down. Internet search: ${decisionLlm_use_search_internet}`
 		}
 	} catch (error) {
 		mockResult = 'Error: ' + error.messages

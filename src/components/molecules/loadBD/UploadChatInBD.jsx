@@ -45,23 +45,25 @@ export default function UploadChatInBD({
 
 	// эффект для проверки колонок
 	useEffect(() => {
-		if (
-			loadingDatabase.personColumn &&
-			loadingDatabase.classColumn &&
-			personName
-		) {
-			if (loadingDatabase.personColumn === loadingDatabase.classColumn) {
-				setError('Person and Class columns must be different')
-				setDownloadConfirm(false)
-			} else {
-				setError('')
-				setDownloadConfirm(true)
-			}
-		} else {
+		if (!loadingDatabase.personColumn || !loadingDatabase.classColumn) {
 			setError(
 				'It is impossible to upload to the Database without these filled in fields.'
 			)
 			setDownloadConfirm(false)
+			return
+		}
+		if (loadingDatabase.personColumn === loadingDatabase.classColumn) {
+			setError('Person and Class columns must be different')
+			setDownloadConfirm(false)
+		} else {
+			if (!personName) {
+				setError(
+					'It is impossible to upload to the Database without these filled in fields.'
+				)
+			} else {
+				setError('')
+			}
+			setDownloadConfirm(true)
 		}
 	}, [loadingDatabase.personColumn, loadingDatabase.classColumn, personName])
 
@@ -76,6 +78,7 @@ export default function UploadChatInBD({
 
 			// Проверяем наличие таблиц
 			if (mockTables.length === 0) {
+				setDownloadConfirm(false)
 				setError(
 					"You don't have any tables. Please create a table first (in My Data search)."
 				)

@@ -107,6 +107,8 @@ export default function BoxUploadFiles({
 			try {
 				await fetch(path_delete, { method: 'DELETE' })
 				setFiles([])
+				setUploading(false)
+				setUploadSuccess('')
 			} catch (error) {
 				setError('Error: ' + error.message)
 			}
