@@ -58,6 +58,7 @@ export default function ChatFraudDetection({ title }) {
 					loadingMessage={loadingMessage}
 					setLoadingMessage={setLoadingMessage}
 					personName={personName}
+					typeAnalysis='class_2'
 				/>
 			</div>
 			<div>

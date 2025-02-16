@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import AnswerBot from './AnswerBot'
 import InputButton from '../atoms/InputButton'
 import {
-	searchClass,
+	searchClassMBTI,
 	constructMessageClass,
 	searchLlm,
+	searchClassFraudDetect,
 } from '../../addition/function_to_backend/analysis_result_chat'
 
 export default function ChatBot({
@@ -36,7 +37,7 @@ export default function ChatBot({
 	const analyzeMessage = () => {
 		let analysisMessages = []
 		if (typeAnalysis == 'class_1') {
-			analysisMessages = searchClass(
+			analysisMessages = searchClassMBTI(
 				inputText,
 				personName,
 				isDownloadConfirm,
@@ -47,6 +48,13 @@ export default function ChatBot({
 				inputText,
 				personName,
 				useSearchInternet,
+				isDownloadConfirm,
+				loadingDatabase
+			)
+		} else if (typeAnalysis == 'class_2') {
+			analysisMessages = searchClassFraudDetect(
+				inputText,
+				personName,
 				isDownloadConfirm,
 				loadingDatabase
 			)

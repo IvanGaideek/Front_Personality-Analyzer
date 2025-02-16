@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import CheckboxForm from '../../atoms/CheckboxForm'
 import ChooseColumnModification from '../../atoms/ChooseColumnModification'
 
 export default function PhoneWritingInBD({
-	setError,
 	loadingDatabase,
 	setLoadingDatabase,
 	isUploadEnabled,

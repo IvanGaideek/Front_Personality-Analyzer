@@ -166,7 +166,6 @@ export default function UploadChatInBD({
 			)}
 			{analysis_phone && (
 				<PhoneWritingInBD
-					setError={setError}
 					loadingDatabase={loadingDatabase}
 					setLoadingDatabase={setLoadingDatabase}
 					isUploadEnabled={isUploadEnabled}
