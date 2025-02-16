@@ -8,8 +8,15 @@ const tableTemplates = {
 	PersonalityAA: [
 		{ name: 'id', type: 'INTEGER', isMandatory: true },
 		{ name: 'username', type: 'VARCHAR' },
-		{ name: 'question', type: 'TEXT' },
 		{ name: 'information', type: 'TEXT' },
+	],
+	FraudDetection: [
+		{ name: 'id', type: 'INTEGER', isMandatory: true },
+		{ name: 'username', type: 'VARCHAR' },
+		{ name: 'fraud', type: 'BOOLEAN' },
+		{ name: 'PhoneNumber', type: 'VARCHAR' },
+		{ name: 'LocationPhone', type: 'VARCHAR' },
+		{ name: 'fraud_PhoneNumber', type: 'BOOLEAN' },
 	],
 }
 
@@ -57,7 +64,7 @@ const validateInput = {
 		return value.length <= len_varchar
 	},
 	INTEGER: value => {
-		return /^-?\d*$/.test(value) // Допускает целые числа и пустую строку
+		return /^-?\d+$/.test(value) // Допускает целые числа и пустую строку
 	},
 	DECIMAL: value => {
 		return /^-?\d*\.?\d*$/.test(value) // Допускает десятичные числа и пустую строку
