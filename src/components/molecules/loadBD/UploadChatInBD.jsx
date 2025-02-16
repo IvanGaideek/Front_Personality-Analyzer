@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import CheckboxForm from '../../atoms/CheckboxForm'
 import TextLinkBlock from '../../atoms/TextLinkBlock'
+import PhoneWritingInBD from './PhoneWritingInBD'
+import { error_same_col } from '../../../addition/data_elements/errors'
 
 const MAX_LENGTH_NAME = 64 // Максимальная длина
 
@@ -14,6 +16,7 @@ export default function UploadChatInBD({
 	func_search_internet = false,
 	useSearchInternet,
 	setUseSearchInternet,
+	analysis_phone = false,
 }) {
 	const [isUploadEnabled, setUploadEnabled] = useState(isDownloadConfirm)
 	const [tables, setTables] = useState([])
@@ -65,7 +68,45 @@ export default function UploadChatInBD({
 			}
 			setDownloadConfirm(true)
 		}
-	}, [loadingDatabase.personColumn, loadingDatabase.classColumn, personName])
+	}, [loadingDatabase, personName])
+
+	useEffect(() => {
+		if (analysis_phone) {
+			if (isDownloadConfirm && loadingDatabase.needAnalysisPhone) {
+				const texts = [
+					loadingDatabase.personColumn,
+					loadingDatabase.classColumn,
+					loadingDatabase.writingPhoneColumn,
+					loadingDatabase.locationPhoneColumn,
+					loadingDatabase.providerPhoneColumn,
+					loadingDatabase.fraudDetectionPhoneColumn,
+				].filter(text => text.trim())
+				const validation = checkTexts(texts)
+				if (texts && !validation) {
+					setError(error_same_col)
+					setDownloadConfirm(false)
+				} else {
+					setError('')
+					setDownloadConfirm(true)
+				}
+			}
+		}
+	}, [
+		loadingDatabase.personColumn,
+		loadingDatabase.classColumn,
+		loadingDatabase.writingPhoneColumn,
+		loadingDatabase.locationPhoneColumn,
+		loadingDatabase.providerPhoneColumn,
+		loadingDatabase.fraudDetectionPhoneColumn,
+	])
+
+	const checkTexts = texts => {
+		// Проверка на уникальность
+		const uniqueTexts = new Set(texts)
+		const hasNonUniqueTexts = uniqueTexts.size !== texts.length
+
+		return !hasNonUniqueTexts
+	}
 
 	const onChangeCheckUpload = async () => {
 		setError('')
@@ -122,6 +163,15 @@ export default function UploadChatInBD({
 				>
 					Use the internet search
 				</CheckboxForm>
+			)}
+			{analysis_phone && (
+				<PhoneWritingInBD
+					setError={setError}
+					loadingDatabase={loadingDatabase}
+					setLoadingDatabase={setLoadingDatabase}
+					isUploadEnabled={isUploadEnabled}
+					columns={columns}
+				/>
 			)}
 			<h2 className='text-lg font-semibold text-medium-yellow'>
 				Data Upload (Database)

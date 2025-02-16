@@ -13,6 +13,11 @@ export default function ChatFraudDetection({ title }) {
 		selectedTable: '',
 		personColumn: '',
 		classColumn: '',
+		needAnalysisPhone: false,
+		writingPhoneColumn: '',
+		locationPhoneColumn: '',
+		providerPhoneColumn: '',
+		fraudDetectionPhoneColumn: '',
 	}) // куда загружать данные в БД
 	const [loadingMessage, setLoadingMessage] = useState(false)
 	const [personName, setPersonName] = useState('')
@@ -66,6 +71,7 @@ export default function ChatFraudDetection({ title }) {
 				setLoadingDatabase={setLoadingDatabase}
 				personName={personName}
 				setPersonName={setPersonName}
+				analysis_phone={true}
 			/>
 		</div>
 	)
