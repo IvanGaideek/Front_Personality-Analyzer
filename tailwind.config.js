@@ -16,6 +16,7 @@ export default {
 				'all-black': '#000000',
 				'medium-yellow': '#fcda45',
 				'yellow-alpha': {
+					100: 'rgba(252, 218, 69, 1)',
 					80: 'rgba(252, 218, 69, 0.82)',
 					20: 'rgba(252, 218, 69, 0.2)',
 				},

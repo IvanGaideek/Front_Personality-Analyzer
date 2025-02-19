@@ -1,0 +1,22 @@
+.policy-container {
+	color: white; /* Белый цвет текста */
+	padding: 20px;
+	border-radius: 8px;
+}
+
+.policy-title {
+	color: yellow; /* Желтый цвет для заголовка */
+}
+
+p,
+ul {
+	color: white; /* Белый цвет для параграфов и списков */
+}
+
+strong {
+	color: yellow; /* Желтый цвет для выделенных элементов */
+}
+
+ul {
+	padding-left: 20px;
+}

@@ -15,6 +15,7 @@ import SignUp from '../components/organisms/SignUp'
 import ChatPersonalAA from '../components/organisms/chats/ChatPerconalAA'
 import ChatMbti from '../components/organisms/chats/ChatMbti'
 import ChatFraudDetection from '../components/organisms/chats/ChatFraudDetection'
+import PrivacyPolicy from '../addition/data_elements/pages_docs/policy/PrivacyPolicy'
 
 function App() {
 	return (
@@ -27,7 +28,7 @@ function App() {
 							<Route path='/docs/overview' element={<OverviewAboutUs />} />
 							<Route path='/docs/team' element={<Team />} />
 							<Route path='/docs/fast-start' element={'fast start'} />
-							<Route path='/docs/policy' element={'policy'} />
+							<Route path='/docs/policy' element={<PrivacyPolicy />} />
 							<Route path='/docs/contacts' element={'contacts'} />
 							<Route path='/docs/app-usage' element={'Use app'} />
 							<Route path='/docs/api-overview' element={'Api overview'} />
