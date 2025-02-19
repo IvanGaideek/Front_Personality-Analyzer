@@ -5,9 +5,11 @@ import PasswordInput from '../molecules/PasswordInput'
 import { validateEmail, validatePassword } from '../atoms/validation'
 import BottomIntoSystemForms from '../molecules/BottomIntoSystemForms'
 import CheckboxForm from '../atoms/CheckboxForm'
+import UsernameInput from '../molecules/UsernameInput'
 
 export default function SignUp() {
 	const [email, setEmail] = useState('')
+	const [username, setUserName] = useState('')
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 	const [termsAccepted, setTermsAccepted] = useState(false)
@@ -57,6 +59,7 @@ export default function SignUp() {
 					Create an account
 				</h1>
 				<form className='space-y-4 md:space-y-6' onSubmit={handleSubmit}>
+					<UsernameInput username={username} setUserName={setUserName} />
 					<EmailInput email={email} setEmail={setEmail} />
 					<PasswordInput
 						password={password}

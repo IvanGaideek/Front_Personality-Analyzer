@@ -3,16 +3,24 @@ import './PrivacyPolicy.css'
 
 const PrivacyPolicy = () => {
 	return (
-		<div className='policy-container'>
+		<div className='policy-container open-sans'>
 			<h1 className='policy-title lato-bold text-center text-3xl'>
-				Политика конфиденциальности и обработки персональных данных -{' '}
+				Политика конфиденциальности и обработки персональных данных - read{' '}
 				<a
-					href='/src/resources/text_files/privacy_policy_doc.pdf'
+					href='/src/resources/text_files/privacy_policy_doc_ru.pdf'
 					target='_blank'
 					rel='noopener noreferrer'
-					className='text-yellow-alpha-100 hover:text-yellow-alpha-20'
+					className='text-yellow-alpha-100 hover:text-yellow-alpha-20 underline hover:no-underline'
 				>
-					read PDF
+					ru
+				</a>{' '}
+				<a
+					href='/src/resources/text_files/privacy_policy_doc_en.pdf'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='text-yellow-alpha-100 hover:text-yellow-alpha-20 underline hover:no-underline'
+				>
+					en
 				</a>
 			</h1>
 			<p className='text-medium-gray'>Компания: Noname</p>
