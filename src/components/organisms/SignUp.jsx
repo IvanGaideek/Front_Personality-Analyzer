@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { login_link } from '../../addition/data_elements/into-system-link'
 import EmailInput from '../molecules/EmailInput'
 import PasswordInput from '../molecules/PasswordInput'
@@ -6,14 +6,19 @@ import { validateEmail, validatePassword } from '../atoms/validation'
 import BottomIntoSystemForms from '../molecules/BottomIntoSystemForms'
 import CheckboxForm from '../atoms/CheckboxForm'
 import UsernameInput from '../molecules/UsernameInput'
+import { UserContext } from '../../addition/contexts/UserContext'
+import { register_link } from '../../addition/data_elements/links_to_backend'
+import { useNavigate } from 'react-router-dom'
 
 export default function SignUp() {
+	const navigate = useNavigate()
 	const [email, setEmail] = useState('')
 	const [username, setUserName] = useState('')
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 	const [termsAccepted, setTermsAccepted] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
+	const [, setToken] = useContext(UserContext)
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -45,8 +50,29 @@ export default function SignUp() {
 		}
 
 		setErrorMessage('')
-		// Процесс регистрации...
-		// console.log('Registering with:', { email, password })
+		submitRegistration()
+	}
+
+	const submitRegistration = async () => {
+		const request_params = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				username: username,
+				email: email,
+				password: password,
+			}),
+		}
+
+		const response = await fetch(register_link, request_params)
+		const data = await response.json()
+
+		if (!response.ok) {
+			setErrorMessage(data.detail)
+		} else {
+			setToken(data.access_token)
+			navigate('/')
+		}
 	}
 
 	return (
@@ -92,6 +118,8 @@ export default function SignUp() {
 						<a
 							className='font-medium text-medium-yellow hover:underline'
 							href='/docs/policy'
+							target='_blank'
+							rel='noopener noreferrer'
 						>
 							Terms and Conditions
 						</a>

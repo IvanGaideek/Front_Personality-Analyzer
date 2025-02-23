@@ -58,15 +58,6 @@ export default function Profile() {
 			</div>
 		)
 	}
-	if (userData.error) {
-		return (
-			<div className='min-h-screen flex items-center justify-center bg-all-black p-6 circle-bi'>
-				<div className='text-red-500 text-lg lato-regular'>
-					{userData.error}
-				</div>
-			</div>
-		)
-	}
 
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-all-black p-6 circle-bi'>
@@ -74,20 +65,25 @@ export default function Profile() {
 				{/* Profile Section */}
 				<h1 className='poppins-bold text-all-black text-2xl'>User Profile</h1>
 				<HorizontalLine color='border-medium-gray' etc_style='my-6' />
-
-				<div className='mb-8'>
-					<h2 className='text-2xl lato-bold text-center'>
-						{userData.username}
-					</h2>
-					<div className='mt-4 space-y-2'>
-						{user_data_items.map(item => (
-							<p className='text-all-black open-sans break-words'>
-								<span className='lato-bold'>{item.title} </span>
-								{userData[item.data]}
-							</p>
-						))}
+				{!userData.error ? (
+					<div className='mb-8'>
+						<h2 className='text-2xl lato-bold text-center'>
+							{userData.username}
+						</h2>
+						<div className='mt-4 space-y-2'>
+							{user_data_items.map(item => (
+								<p className='text-all-black open-sans break-words'>
+									<span className='lato-bold'>{item.title} </span>
+									{userData[item.data]}
+								</p>
+							))}
+						</div>
 					</div>
-				</div>
+				) : (
+					<div className='text-red-500 text-lg lato-regular'>
+						{userData.error}
+					</div>
+				)}
 
 				<HorizontalLine color='border-medium-gray' etc_style='mb-6' />
 

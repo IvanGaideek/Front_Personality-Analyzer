@@ -16,53 +16,89 @@ import ChatPersonalAA from '../components/organisms/chats/ChatPerconalAA'
 import ChatMbti from '../components/organisms/chats/ChatMbti'
 import ChatFraudDetection from '../components/organisms/chats/ChatFraudDetection'
 import PrivacyPolicy from '../addition/data_elements/pages_docs/policy/PrivacyPolicy'
+import ProtectedRoute from '../components/atoms/ProtectedRoute'
+import { UserProvider } from '../addition/contexts/UserContext'
 
 function App() {
 	return (
-		<BrowserRouter>
-			<div className='flex-container'>
-				<Routes>
-					<Route path='/' element={<FullForPage />}>
-						<Route index element={<MainPage />} />
-						<Route path='/docs' element={<Docs />}>
-							<Route path='/docs/overview' element={<OverviewAboutUs />} />
-							<Route path='/docs/team' element={<Team />} />
-							<Route path='/docs/fast-start' element={'fast start'} />
-							<Route path='/docs/policy' element={<PrivacyPolicy />} />
-							<Route path='/docs/contacts' element={'contacts'} />
-							<Route path='/docs/app-usage' element={'Use app'} />
-							<Route path='/docs/api-overview' element={'Api overview'} />
-							<Route path='/docs/api-usage' element={'Api use'} />
-							<Route path='/docs/gratitude' element={'Gratitude'} />
+		<UserProvider>
+			<BrowserRouter>
+				<div className='flex-container'>
+					<Routes>
+						<Route path='/' element={<FullForPage />}>
+							<Route index element={<MainPage />} />
+
+							<Route path='/docs' element={<Docs />}>
+								<Route path='/docs/overview' element={<OverviewAboutUs />} />
+								<Route path='/docs/team' element={<Team />} />
+								<Route path='/docs/fast-start' element={'fast start'} />
+								<Route path='/docs/policy' element={<PrivacyPolicy />} />
+								<Route path='/docs/contacts' element={'contacts'} />
+								{/* Защищенные маршруты в документации */}
+								<Route path='/docs/app-usage' element={'Use app'} />
+								<Route path='/docs/api-overview' element={'Api overview'} />
+								<Route path='/docs/api-usage' element={'Api use'} />
+								<Route path='/docs/gratitude' element={'Gratitude'} />
+							</Route>
+
+							{/* Защищенные маршруты продукта */}
+							<Route path='/product' element={<Product />}>
+								<Route
+									path='/product/personal-aa'
+									element={
+										<ProtectedRoute>
+											<ChatPersonalAA title='AI Chat Bot' />
+										</ProtectedRoute>
+									}
+								/>
+								<Route
+									path='/product/mbti-classification'
+									element={
+										<ProtectedRoute>
+											<ChatMbti title='MBTI Classification' />
+										</ProtectedRoute>
+									}
+								/>
+								<Route
+									path='/product/fraud-detection'
+									element={
+										<ProtectedRoute>
+											<ChatFraudDetection title='Fraud & Spam detection chat' />
+										</ProtectedRoute>
+									}
+								/>
+							</Route>
 						</Route>
-						<Route path='/product' element={<Product />}>
-							<Route
-								path='/product/personal-aa'
-								element={<ChatPersonalAA title='AI Chat Bot' />}
-							/>
-							<Route
-								path='/product/mbti-classification'
-								element={<ChatMbti title='MBTI Classification' />}
-							/>
-							<Route
-								path='/product/fraud-detection'
-								element={
-									<ChatFraudDetection title='Fraud & Spam detection chat' />
-								}
-							/>
+
+						<Route path='/into-system' element={<IntoSystem />}>
+							<Route path='/into-system/register' element={<SignUp />} />
+							<Route index element={<SignIn />} />
 						</Route>
-					</Route>
-					<Route path='/into-system' element={<IntoSystem />}>
-						<Route path='/into-system/register' element={<SignUp />} />
-						<Route index path='/into-system' element={<SignIn />} />
-					</Route>
-					<Route path='/profile' element={<Profile />} />
-					<Route path='/data-search' element={<DatabaseSearch />} />
-					<Route path='*' element={'Not Found'} />
-				</Routes>
-				<Footer />
-			</div>
-		</BrowserRouter>
+
+						{/* Защищенные независимые маршруты */}
+						<Route
+							path='/profile'
+							element={
+								<ProtectedRoute>
+									<Profile />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/data-search'
+							element={
+								<ProtectedRoute>
+									<DatabaseSearch />
+								</ProtectedRoute>
+							}
+						/>
+
+						<Route path='*' element={'Not Found'} />
+					</Routes>
+					<Footer />
+				</div>
+			</BrowserRouter>
+		</UserProvider>
 	)
 }
 

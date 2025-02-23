@@ -1,0 +1,4 @@
+const prefix = 'http://127.0.0.1:8000'
+export const register_link = prefix + '/api/v1/users/register'
+export const user_me_link = prefix + '/api/v1/users/me'
+export const login_link = prefix + '/api/v1/users/login'
