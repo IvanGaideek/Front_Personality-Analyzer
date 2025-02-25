@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import LogoutButton from '../atoms/LogoutButton'
 import DeleteButton from '../atoms/DeleteButton'
 import HorizontalLine from '../atoms/HorizontalLine'
 import { user_data_items } from '../../addition/data_elements/items-data-user'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai' // Иконка для индикации загрузки
+import { get_profile_data } from '../../addition/data_elements/links_to_backend'
+import { UserContext } from '../../addition/contexts/UserContext'
 
 export default function Profile() {
 	const [userData, setUserData] = useState({
@@ -13,31 +15,38 @@ export default function Profile() {
 		isLoading: true,
 		error: null,
 	})
+	const [token] = useContext(UserContext)
 
 	useEffect(() => {
 		const fetchUserData = async () => {
 			try {
-				const response = await fetch('/api/user/profile', {
+				const url = new URL(get_profile_data)
+				url.searchParams.append('authorization', `Bearer ${token}`)
+
+				const request_params = {
 					method: 'GET',
 					headers: {
-						'Content-Type': 'application/json',
-						// Добавить заголовок авторизации, если потребуется
-						// 'Authorization': `Bearer ${yourAuthToken}`
+						accept: 'application/json',
 					},
-				})
-
-				if (!response.ok) {
-					throw new Error('Failed to fetch user data')
 				}
 
-				const data = await response.json()
-				setUserData({
-					username: data.username,
-					email: data.email,
-					savedTables: data.saved_tables || 0,
-					isLoading: false,
-					error: null,
-				})
+				const response = await fetch(url, request_params)
+
+				if (!response.ok) {
+					// throw new Error('Failed to fetch user data')
+					setUserData.isLoading(false)
+					setUserData.error(response.ok)
+					throw new Error(response.ok)
+				} else {
+					const data = await response.json()
+					setUserData({
+						username: data.username,
+						email: data.email,
+						savedTables: null, // пока не реализовано
+						isLoading: false,
+						error: null,
+					})
+				}
 			} catch (error) {
 				setUserData(prev => ({
 					...prev,
@@ -72,7 +81,10 @@ export default function Profile() {
 						</h2>
 						<div className='mt-4 space-y-2'>
 							{user_data_items.map(item => (
-								<p className='text-all-black open-sans break-words'>
+								<p
+									className='text-all-black open-sans break-words'
+									key={item.title}
+								>
 									<span className='lato-bold'>{item.title} </span>
 									{userData[item.data]}
 								</p>
