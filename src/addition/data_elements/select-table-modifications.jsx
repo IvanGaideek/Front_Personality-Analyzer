@@ -20,7 +20,7 @@ const tableTemplates = {
 	],
 }
 
-const len_varchar = 256
+const len_varchar = 64
 
 const typesData = [
 	'VARCHAR',
@@ -79,7 +79,7 @@ const validateInput = {
 		return true // Для TEXT нет ограничений
 	},
 	BOOLEAN: value => {
-		const validValues = ['true', 'false', '1', '0', '', 'yes', 'no']
+		const validValues = ['true', 'false', '1', '0', '']
 		return validValues.includes(value.toLowerCase())
 	},
 }
