@@ -52,14 +52,16 @@ export default function ChatBot({
 				personName,
 				useSearchInternet,
 				isDownloadConfirm,
-				loadingDatabase
+				loadingDatabase,
+				token
 			)
 		} else if (typeAnalysis == 'class_2') {
-			analysisMessages = searchClassFraudDetect(
+			analysisMessages = await searchClassFraudDetect(
 				inputText,
 				personName,
 				isDownloadConfirm,
-				loadingDatabase
+				loadingDatabase,
+				token
 			)
 		}
 		setLoadingMessage(false)

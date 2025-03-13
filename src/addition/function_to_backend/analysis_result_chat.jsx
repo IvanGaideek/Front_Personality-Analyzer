@@ -1,4 +1,7 @@
-import { mbti_analyser_link } from '../data_elements/links_to_backend'
+import {
+	fraud_detection_analyser_link,
+	mbti_analyser_link,
+} from '../data_elements/links_to_backend'
 
 const searchClassMBTI = async (
 	inputText,
@@ -118,40 +121,73 @@ const searchLlm = (
 	return [{ text: mockResult, sender: 'bot' }]
 }
 
-const searchClassFraudDetect = (
+const searchClassFraudDetect = async (
 	inputText,
 	person,
 	isDownloadConfirm,
-	loadingDatabase
+	loadingDatabase,
+	token
 ) => {
-	let mockResult = null
-	try {
-		if (inputText.split(' ').filter(word => word !== '').length < 4) {
-			mockResult = {
+	if (inputText.split(' ').filter(word => word !== '').length < 4) {
+		return constructMessageClass([
+			{
 				personName: 'Error',
 				analysis:
-					'insufficient or incorrect input (check out the documentation)',
+					'Insufficient or incorrect input (check out the documentation)',
 				writingDatabase: 'undefined',
+			},
+		])
+	}
+	const requestBody = {
+		text: inputText,
+		person: person,
+		loading_database: {
+			selectedTable: loadingDatabase.selectedTable,
+			personColumn: loadingDatabase.personColumn,
+			classColumn: loadingDatabase.classColumn,
+		},
+		writingDatabase: Boolean(person) & isDownloadConfirm,
+	}
+
+	const options = {
+		method: 'POST',
+		headers: {
+			accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(requestBody),
+	}
+
+	try {
+		const url = new URL(fraud_detection_analyser_link)
+		url.searchParams.append('authorization', `Bearer ${token}`)
+		const response = await fetch(url, options)
+		const data = await response.json()
+
+		if (response.ok) {
+			let res_writingDatabase = false
+			let res_analysis = 'Not fraud or spam'
+			if (data.writingDatabase) {
+				res_writingDatabase = 'Successful entry in the database!'
 			}
-		} else if (isDownloadConfirm && person) {
-			// Имитация ответа от сервера для примера с записью в БД
-			// При отправке запроса передаём person, loadingDatabase, содержащий информацию, куда записывать результаты
-			console.log(loadingDatabase)
-			mockResult = {
-				personName: person,
-				analysis:
-					'FRAUD, the result of the number analysis, if you selected this function', // планируется, что 1 - мошенник, 0 - нормальное письмо (документ),
-				// если юзер выбрал функцию анализа телефонного номера в сообщение, то происходит анализ по выбранным параметрам (если номер нашёлся в сообщении)
-				writingDatabase: 'Successful entry in the database!',
+			if (data.analysis == 'true') {
+				res_analysis = 'Fraud'
 			}
+			return constructMessageClass([
+				{
+					personName: person,
+					analysis: res_analysis,
+					writingDatabase: res_writingDatabase, // Значение из ответа сервера
+				},
+			])
 		} else {
-			// Имитация ответа от сервера для примера без записи в БД
-			mockResult = {
-				personName: person,
-				analysis:
-					'No fraud, the result of the number analysis, if you selected this function', // если юзер выбрал функцию анализа телефонного номера в сообщение, то происходит анализ по всем параметрам (если номер нашёлся в сообщении)
-				writingDatabase: false,
-			}
+			return constructMessageClass([
+				{
+					personName: 'Error',
+					analysis: data.detail || 'Unknown error occurred',
+					writingDatabase: 'undefined',
+				},
+			])
 		}
 	} catch (error) {
 		mockResult = {
@@ -160,7 +196,6 @@ const searchClassFraudDetect = (
 			writingDatabase: 'undefined',
 		}
 	}
-	return constructMessageClass([mockResult])
 }
 
 export {
