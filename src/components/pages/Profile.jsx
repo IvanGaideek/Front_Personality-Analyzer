@@ -33,7 +33,6 @@ export default function Profile() {
 				const response = await fetch(url, request_params)
 
 				if (!response.ok) {
-					// throw new Error('Failed to fetch user data')
 					setUserData.isLoading(false)
 					setUserData.error(response.ok)
 					throw new Error(response.ok)
@@ -57,7 +56,7 @@ export default function Profile() {
 		}
 
 		fetchUserData()
-	}, [])
+	}, [token])
 
 	if (userData.isLoading) {
 		return (

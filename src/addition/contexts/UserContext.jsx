@@ -4,7 +4,6 @@ import { user_me_link } from '../data_elements/links_to_backend'
 export const UserContext = createContext()
 
 export const UserProvider = props => {
-	// Проблема была в том, что не возвращалось значение из useState
 	const [rememberMe, setRememberMe] = useState(() => {
 		return localStorage.getItem('remember_me') === 'true'
 	})
@@ -35,41 +34,41 @@ export const UserProvider = props => {
 			if (!token) {
 				handleSetToken(null)
 				return
-			}
+			} else {
+				try {
+					const url = new URL(user_me_link)
+					url.searchParams.append('authorization', `Bearer ${token}`)
 
-			try {
-				const url = new URL(user_me_link)
-				url.searchParams.append('authorization', `Bearer ${token}`)
+					const request_params = {
+						method: 'GET',
+						headers: {
+							accept: 'application/json',
+						},
+					}
 
-				const request_params = {
-					method: 'GET',
-					headers: {
-						accept: 'application/json',
-					},
-				}
+					const response = await fetch(url, request_params)
 
-				const response = await fetch(url, request_params)
+					if (!response.ok) {
+						handleSetToken(null, rememberMe)
+						return
+					}
 
-				if (!response.ok) {
+					// Сохраняем токен в соответствующее хранилище
+					if (rememberMe) {
+						localStorage.setItem('access_token', token)
+						localStorage.setItem('remember_me', 'true')
+					} else {
+						sessionStorage.setItem('access_token', token)
+					}
+				} catch (error) {
+					console.error('Error fetching user:', error)
 					handleSetToken(null, rememberMe)
-					return
 				}
-
-				// Сохраняем токен в соответствующее хранилище
-				if (rememberMe) {
-					localStorage.setItem('access_token', token)
-					localStorage.setItem('remember_me', 'true')
-				} else {
-					sessionStorage.setItem('access_token', token)
-				}
-			} catch (error) {
-				console.error('Error fetching user:', error)
-				handleSetToken(null, rememberMe)
 			}
 		}
 
 		fetchUser()
-	}, [token])
+	}, [setToken])
 
 	const contextValue = [token, handleSetToken]
 
