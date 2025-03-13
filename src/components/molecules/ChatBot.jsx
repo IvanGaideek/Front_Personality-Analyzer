@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AnswerBot from './AnswerBot'
 import InputButton from '../atoms/InputButton'
 import {
@@ -7,6 +7,7 @@ import {
 	searchLlm,
 	searchClassFraudDetect,
 } from '../../addition/function_to_backend/analysis_result_chat'
+import { UserContext } from '../../addition/contexts/UserContext'
 
 export default function ChatBot({
 	maxWords = 4000,
@@ -21,6 +22,7 @@ export default function ChatBot({
 }) {
 	const [inputText, setInputText] = useState('')
 	const [messages, setMessages] = useState([])
+	const [token] = useContext(UserContext)
 
 	// Добавляем результаты анализа в чат при их получении
 	useEffect(() => {
@@ -34,14 +36,15 @@ export default function ChatBot({
 		setInputText(e.target.value)
 	}
 
-	const analyzeMessage = () => {
+	const analyzeMessage = async () => {
 		let analysisMessages = []
 		if (typeAnalysis == 'class_1') {
-			analysisMessages = searchClassMBTI(
+			analysisMessages = await searchClassMBTI(
 				inputText,
 				personName,
 				isDownloadConfirm,
-				loadingDatabase
+				loadingDatabase,
+				token
 			)
 		} else if (typeAnalysis == 'llm') {
 			analysisMessages = searchLlm(
@@ -59,6 +62,7 @@ export default function ChatBot({
 				loadingDatabase
 			)
 		}
+		setLoadingMessage(false)
 		setMessages(prev => [...prev, ...analysisMessages])
 	}
 
@@ -79,12 +83,9 @@ export default function ChatBot({
 		])
 		setLoadingMessage(true)
 
-		// Имитация ответа от бота
-		setTimeout(() => {
-			analyzeMessage()
-			setInputText('')
-			setLoadingMessage(false)
-		}, 2000)
+		// ответ от бота
+		analyzeMessage()
+		setInputText('')
 	}
 
 	const handleKeyPress = e => {

@@ -1,43 +1,78 @@
-const searchClassMBTI = (
+import { mbti_analyser_link } from '../data_elements/links_to_backend'
+
+const searchClassMBTI = async (
 	inputText,
 	person,
 	isDownloadConfirm,
-	loadingDatabase
+	loadingDatabase,
+	token
 ) => {
-	let mockResult = null
-	try {
-		if (inputText.split(' ').filter(word => word !== '').length < 4) {
-			mockResult = {
+	if (inputText.split(' ').filter(word => word !== '').length < 4) {
+		return constructMessageClass([
+			{
 				personName: 'Error',
 				analysis:
-					'insufficient or incorrect input (check out the documentation)',
+					'Insufficient or incorrect input (check out the documentation)',
 				writingDatabase: 'undefined',
+			},
+		])
+	}
+	const requestBody = {
+		text: inputText,
+		person: person,
+		loading_database: {
+			selectedTable: loadingDatabase.selectedTable,
+			personColumn: loadingDatabase.personColumn,
+			classColumn: loadingDatabase.classColumn,
+		},
+		writingDatabase: Boolean(person) & isDownloadConfirm,
+	}
+
+	const options = {
+		method: 'POST',
+		headers: {
+			accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(requestBody),
+	}
+
+	try {
+		const url = new URL(mbti_analyser_link)
+		url.searchParams.append('authorization', `Bearer ${token}`)
+		const response = await fetch(url, options)
+		const data = await response.json()
+
+		if (response.ok) {
+			let res_writingDatabase = false
+			if (data.writingDatabase) {
+				res_writingDatabase = 'Successful entry in the database!'
 			}
-		} else if (isDownloadConfirm && person) {
-			// Имитация ответа от сервера для примера с записью в БД
-			// При отправке запроса передаём person, loadingDatabase, содержащий информацию, куда записывать результаты
-			console.log(loadingDatabase)
-			mockResult = {
-				personName: person,
-				analysis: 'MBTI',
-				writingDatabase: 'Successful entry in the database!',
-			}
+			return constructMessageClass([
+				{
+					personName: person,
+					analysis: data.analysis,
+					writingDatabase: res_writingDatabase, // Значение из ответа сервера
+				},
+			])
 		} else {
-			// Имитация ответа от сервера для примера без записи в БД
-			mockResult = {
-				personName: person,
-				analysis: 'MBTI',
-				writingDatabase: false,
-			}
+			return constructMessageClass([
+				{
+					personName: 'Error',
+					analysis: data.detail || 'Unknown error occurred',
+					writingDatabase: 'undefined',
+				},
+			])
 		}
 	} catch (error) {
-		mockResult = {
-			personName: 'Error',
-			analysis: error.messages,
-			writingDatabase: 'undefined',
-		}
+		return constructMessageClass([
+			{
+				personName: 'Error',
+				analysis: error.message || 'An error occurred',
+				writingDatabase: 'undefined',
+			},
+		])
 	}
-	return constructMessageClass([mockResult])
 }
 
 const constructMessageClass = data_messages => {

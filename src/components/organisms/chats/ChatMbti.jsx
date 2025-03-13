@@ -4,7 +4,7 @@ import BoxUploadFiles from '../../molecules/FileUploadingInChat'
 import UploadChatInBD from '../../molecules/loadBD/UploadChatInBD'
 import HorizontalLine from '../../atoms/HorizontalLine'
 
-const maxWordsChat = 1050
+const maxWordsChat = 1600
 
 export default function ChatMbti({ title }) {
 	const [isDownloadConfirm, setDownloadConfirm] = useState(false) // состояние дающее разрешение на загрузку в БД данных
