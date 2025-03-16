@@ -26,6 +26,7 @@ export default function DeleteButton(props) {
 						title={props.title}
 						description={props.description}
 						name_button={props.name_button ? props.name_button : 'Delete'}
+						func_button={props.deleting_func}
 					/>
 				</ModalWindow>
 			)}

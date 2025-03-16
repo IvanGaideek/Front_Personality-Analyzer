@@ -4,7 +4,10 @@ import DeleteButton from '../atoms/DeleteButton'
 import HorizontalLine from '../atoms/HorizontalLine'
 import { user_data_items } from '../../addition/data_elements/items-data-user'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai' // Иконка для индикации загрузки
-import { get_profile_data } from '../../addition/data_elements/links_to_backend'
+import {
+	delete_user_link,
+	get_profile_data,
+} from '../../addition/data_elements/links_to_backend'
 import { UserContext } from '../../addition/contexts/UserContext'
 
 export default function Profile() {
@@ -15,7 +18,7 @@ export default function Profile() {
 		isLoading: true,
 		error: null,
 	})
-	const [token] = useContext(UserContext)
+	const [token, setToken] = useContext(UserContext)
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -67,6 +70,53 @@ export default function Profile() {
 		)
 	}
 
+	const deleteUser = async () => {
+		try {
+			const url = new URL(delete_user_link)
+
+			// Добавляем токен авторизации
+			url.searchParams.append('authorization', `Bearer ${token}`)
+
+			const request_params = {
+				method: 'DELETE', // Метод DELETE для удаления пользователя
+				headers: {
+					accept: 'application/json',
+				},
+			}
+
+			const response = await fetch(url, request_params)
+
+			// Проверяем, успешен ли запрос
+			if (!response.ok) {
+				// Установим состояние ошибки
+				setUserData(prev => ({
+					...prev,
+					isLoading: false,
+					error: 'Failed to delete user',
+				}))
+				throw new Error('Failed to delete user')
+			} else {
+				// Дополнительно: можно отправить уведомление об успешном удалении
+				console.log('User deleted successfully')
+				setUserData({
+					username: null,
+					email: null,
+					savedTables: null,
+					isLoading: false,
+					error: 'User deleted',
+				})
+				setToken(null)
+			}
+		} catch (error) {
+			// Обрабатываем ошибку, если что-то пошло не так
+			setUserData(prev => ({
+				...prev,
+				isLoading: false,
+				error: 'Failed to delete user',
+			}))
+		}
+	}
+
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-all-black p-6 circle-bi'>
 			<div className='w-full max-w-6xl rounded-lg bg-almost-white shadow-lg p-8'>
@@ -101,6 +151,7 @@ export default function Profile() {
 				{/* Action Buttons */}
 				<div className='flex justify-end gap-4'>
 					<DeleteButton
+						deleting_func={deleteUser}
 						text='Delete'
 						title='Confirm the deletion'
 						description='Are you sure you want to delete your account along with other dependent data?'
