@@ -29,13 +29,6 @@ export default function PhoneWritingInBD({
 		}))
 	}
 
-	const handleChangeFraudDetectionPhoneColumn = arg => {
-		setLoadingDatabase(prevState => ({
-			...prevState,
-			fraudDetectionPhoneColumn: arg,
-		}))
-	}
-
 	return (
 		<div>
 			<div className='flex flex-col justify-content mb-4'>
@@ -74,14 +67,6 @@ export default function PhoneWritingInBD({
 								checked={loadingDatabase.providerPhoneColumn}
 								setLoadingDatabase={handleChangeProviderPhoneColumn}
 								label='Phone Number Provider:'
-							/>
-						</div>
-						<div className='flex flex-row gap-1 justify-between items-center'>
-							<ChooseColumnModification
-								columns={columns}
-								checked={loadingDatabase.fraudDetectionPhoneColumn}
-								setLoadingDatabase={handleChangeFraudDetectionPhoneColumn}
-								label='Analysis to identify a fraudulent phone number:'
 							/>
 						</div>
 					</div>

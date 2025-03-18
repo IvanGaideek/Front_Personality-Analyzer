@@ -17,7 +17,6 @@ export default function ChatFraudDetection({ title }) {
 		writingPhoneColumn: '',
 		locationPhoneColumn: '',
 		providerPhoneColumn: '',
-		fraudDetectionPhoneColumn: '',
 	}) // куда загружать данные в БД
 	const [loadingMessage, setLoadingMessage] = useState(false)
 	const [personName, setPersonName] = useState('')

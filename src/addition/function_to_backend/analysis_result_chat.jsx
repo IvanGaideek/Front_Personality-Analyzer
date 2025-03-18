@@ -87,6 +87,15 @@ const constructMessageClass = data_messages => {
 	}))
 }
 
+const constructMessageClassWithPhone = data_messages => {
+	return data_messages.map(result => ({
+		text: `${result.personName} - ${result.analysis} -> Write in DB: ${
+			result.writingDatabase ? result.writingDatabase : 'Not writing this down'
+		}  About phone - ${result.inf_phone}`,
+		sender: 'bot',
+	}))
+}
+
 const searchLlm = (
 	inputText,
 	person,
@@ -146,6 +155,10 @@ const searchClassFraudDetect = async (
 			personColumn: loadingDatabase.personColumn,
 			classColumn: loadingDatabase.classColumn,
 		},
+		needAnalysisPhone: loadingDatabase.needAnalysisPhone,
+		writingPhoneColumn: loadingDatabase.writingPhoneColumn,
+		locationPhoneColumn: loadingDatabase.locationPhoneColumn,
+		providerPhoneColumn: loadingDatabase.providerPhoneColumn,
 		writingDatabase: Boolean(person) & isDownloadConfirm,
 	}
 
@@ -165,6 +178,7 @@ const searchClassFraudDetect = async (
 		const data = await response.json()
 
 		if (response.ok) {
+			let res_phone = ''
 			let res_writingDatabase = false
 			let res_analysis = 'Not fraud or spam'
 			if (data.writingDatabase) {
@@ -173,11 +187,42 @@ const searchClassFraudDetect = async (
 			if (data.analysis == 'true') {
 				res_analysis = 'Fraud'
 			}
-			return constructMessageClass([
+			if (data.messagePhone == 'success') {
+				let provider = data.providerPhone
+				if (provider === '' || provider === null) {
+					provider = 'not found'
+				}
+				res_phone =
+					'Phone number ' +
+					data.phone +
+					': place of registration - ' +
+					data.locationPhone +
+					'; provider - ' +
+					provider +
+					'; writing database - ' +
+					data.writingInfPhoneDatabase
+			} else if (data.messagePhone === 'not found') {
+				res_phone = 'Not a single phone number was found in the text.'
+			} else if (data.messagePhone == 'not existing') {
+				res_phone = 'The number ' + data.phone + ' does not exist.'
+			} else if (data.messagePhone == 'error') {
+				res_phone =
+					'An error occurred when analyzing the number ' + data.phone + '.'
+			} else {
+				return constructMessageClass([
+					{
+						personName: person,
+						analysis: res_analysis,
+						writingDatabase: res_writingDatabase,
+					},
+				])
+			}
+			return constructMessageClassWithPhone([
 				{
 					personName: person,
 					analysis: res_analysis,
-					writingDatabase: res_writingDatabase, // Значение из ответа сервера
+					writingDatabase: res_writingDatabase,
+					inf_phone: res_phone,
 				},
 			])
 		} else {
@@ -195,6 +240,7 @@ const searchClassFraudDetect = async (
 			analysis: error.messages,
 			writingDatabase: 'undefined',
 		}
+		return [{ text: mockResult, sender: 'bot' }]
 	}
 }
 

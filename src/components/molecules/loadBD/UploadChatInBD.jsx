@@ -79,7 +79,6 @@ export default function UploadChatInBD({
 					loadingDatabase.writingPhoneColumn,
 					loadingDatabase.locationPhoneColumn,
 					loadingDatabase.providerPhoneColumn,
-					loadingDatabase.fraudDetectionPhoneColumn,
 				].filter(text => text.trim())
 				const validation = checkTexts(texts)
 				if (texts && !validation) {
@@ -97,7 +96,6 @@ export default function UploadChatInBD({
 		loadingDatabase.writingPhoneColumn,
 		loadingDatabase.locationPhoneColumn,
 		loadingDatabase.providerPhoneColumn,
-		loadingDatabase.fraudDetectionPhoneColumn,
 	])
 
 	const checkTexts = texts => {
